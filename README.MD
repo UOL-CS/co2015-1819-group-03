@@ -1,14 +1,24 @@
 # Group's Definition of Done
 
-_enter your definition of done here for Sprint Zero (30th Jan)_
+- Code
+- Unit Testing
+- CI Passing
+- Manual Testing
+- Integration Testing
+- Integration Tests running on CI
+- Coding Standards Checked
 
 # Group's Roles and Responsibilities
 
-_tabulate the roles and responsibilities that each group member agrees to here. e.g._
-
-| Role          | Person 1  | Person 2 | etc etc |
-| ------------- | :-------: | :-----:  | :-----: |
-| Role 1        | x         |          |         |
-| Role 2        |           | x        |         |
-| Role 3        | x         | x        |         |
-| etc, etc      |           |          |         |
+| Roles                    | Brandon    | Hoshil     | Nawien     | Nuha       | Shahin     |
+| ------------------------ | ---------- | ---------- | ---------- | ---------- | ---------- |
+| Software Developer       | x          | x          | x          |            | x          |
+| Automated Test Writer    | x          |            |            |            | x          |
+| Build Engineer           |            | x          |            |            |            |
+| Manual Tester            | x          |            |            | x          | x          |
+| Coding Standards Fixer   |            |            |            |            | x          |
+| Scrum Master             | x          |            |            |            |            |
+| Product Owner            |            | x          |            |            |            |
+| Assessment Lead          | x          |            |            | x          |            |
+| Tech Lead                |            | x          | x          |            |            |
+| Configuration Manager    |            | x          |            |            |            |

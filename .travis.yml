@@ -1,0 +1,12 @@
+language: java
+
+services:
+  - mysql
+
+before_script:
+  - mysql -e 'CREATE DATABASE demo_db;'
+  - mv src/main/resources/application.travis.properties src/main/resources/application.properties
+  - cat src/main/resources/application.properties
+
+script:
+  - gradle check -i

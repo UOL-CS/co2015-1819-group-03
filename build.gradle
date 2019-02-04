@@ -34,6 +34,10 @@ repositories {
 	mavenCentral()
 }
 
+ext {
+	jasperVersion = '9.0.10'
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -42,4 +46,8 @@ dependencies {
 	runtimeOnly 'mysql:mysql-connector-java'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	
+	//JSP
+	compile("javax.servlet:jstl:1.2")
+	compile("org.apache.tomcat.embed:tomcat-embed-jasper:$jasperVersion")
 }

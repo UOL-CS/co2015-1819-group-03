@@ -15,7 +15,7 @@
       <h1 class="display-3"><strong>GitRuler<strong></h1>
       <p class="lead">Complete automatically marked exercises to learn git skills.<br class="d-none d-lg-block"> 
       	Made with <i class="fas fa-heart"></i> by Group 3.</p>
-      <a href="/" class="mt-4 btn btn-lg btn-dark btn-pill px-5"><i class="fab fa-gitlab"></i>&emsp;Continue
+      <a href="/oauth2/authorization/gitlab" class="mt-4 btn btn-lg btn-dark btn-pill px-5"><i class="fab fa-gitlab"></i>&emsp;Continue
           with GitLab</a>
     </div>
   </section>

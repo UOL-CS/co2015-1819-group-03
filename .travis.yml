@@ -5,8 +5,8 @@ services:
 
 before_script:
   - mysql -e 'CREATE DATABASE demo_db;'
-  - mv src/main/resources/application.travis.properties src/main/resources/application.properties
-  - cat src/main/resources/application.properties
+  - mv src/main/resources/application.travis.yml src/main/resources/application.yml
+  - cat src/main/resources/application.yml
 
 script:
   - gradle check -i

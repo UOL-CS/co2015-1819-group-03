@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 
@@ -8,6 +9,14 @@
 </head>
 
 <body>
+	<c:if test="${param.error != null}">
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			<strong><i class="fas fa-exclamation-circle"></i>&emsp;Authentication failed!</strong> Either you have cancelled the authentication or GitLab denied the connection.
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	</c:if>
   <section class="landing-box text-dark" style="padding: 200px;">
     <div class="container">
       <h1 class="display-3"><strong>GitRuler</strong></h1>

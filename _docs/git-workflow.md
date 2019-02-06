@@ -1,0 +1,3 @@
+# Git Workflow
+
+For our git source control, we have decided to follow a slightly modified version of [this](https://nvie.com/posts/a-successful-git-branching-model/) git workflow, as proposed by Vincent Driessen's branching model. The two main branches are master and develop. Each new feature is branched off from develop into its own feature branch, and once completed it merged back into the develop branch.

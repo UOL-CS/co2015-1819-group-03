@@ -11,7 +11,7 @@
 <body>
 	<c:if test="${param.error != null}">
 		<div class="alert alert-danger alert-dismissible fade show" role="alert">
-			<strong><i class="fas fa-exclamation-circle"></i>&emsp;Authentication failed!</strong> Either you have cancelled the authentication or GitLab denied the connection.
+			<strong><i class="fas fa-exclamation-circle"></i>&emsp;Login failed!</strong> Please try to login again.
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			</button>

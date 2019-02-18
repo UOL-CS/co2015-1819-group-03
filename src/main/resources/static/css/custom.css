@@ -1,0 +1,56 @@
+html {
+    scroll-behavior: smooth;
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    background-color: #F0F0F0;
+}
+
+/* page title */
+.title {
+    position: absolute;
+    top: 15%;
+    left: 15%;
+}
+
+/* top navigation bar*/
+.navbar-brand {
+    padding-left: 5%;
+    font-size: 150%;
+}
+
+/* top title container*/
+.top-box {
+    height: auto;
+    min-height: 5%;
+    padding: 3%;
+    background-color: #FFF;
+}
+
+/* bottom body container*/
+.bottom-box {
+    flex: 1;
+    padding: 1% 13% 3% 13%;
+}
+
+/* bottom navigation bar*/
+.nav {
+    background-color: #FFF;
+}
+
+li.nav-item a {
+    color: rgba(45, 124, 177, 0.4);
+}
+
+li.nav-item a.active {
+    color: rgba(0, 136, 248, 0.911);
+    border-bottom: 3px solid rgba(0, 136, 248, 0.911);
+}
+
+/* exercises box*/
+.list-group a {
+    padding: 3%;
+    margin-bottom: 2%;
+}

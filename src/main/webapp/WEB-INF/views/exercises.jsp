@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 
@@ -13,7 +14,7 @@
 <body>
 <!-- header -->
 
-<nav class="navbar sticky-top navbar-dark navbar-expand-md bg-primary" id="navbar">
+<nav class="navbar sticky-top navbar-dark navbar-expand-md bg-primary shadow" id="navbar">
     <a class="navbar-brand" href="#">GitRuler</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,54 +54,22 @@
             <!--Exercises-->
             <div class="container">
                 <div class="list-group">
-                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="row">
-                            <div class="col-3">
-                                <h5 class="mb-1">Exercise 1</h5>
+                    <c:forEach items="${exercises}" var="exercise">
+
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start shadow">
+                            <div class="row">
+                                <div class="col-3">
+                                    <h5 class="mb-1"><c:out value="${exercise.name}"/></h5>
+                                </div>
+                                <div class="col-6">
+                                    <small>Description:</small>
+                                    <p class="mb-1">
+                                        <c:out value="${exercise.description}"/></p>
+                                </div>
                             </div>
-                            <div class="col-6">
-                                <small>Description:</small>
-                                <p class="mb-1">Lorem ipsum dolor sit amet, eruditi scaevola no qui, an per dolores
-                                    pericula torquatos. Vel erat saperet disputationi te, tation torquatos in pro. </p>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="row">
-                            <div class="col-3">
-                                <h5 class="mb-1">Exercise 2</h5>
-                            </div>
-                            <div class="col-6">
-                                <small>Description:</small>
-                                <p class="mb-1">Lorem ipsum dolor sit amet, eruditi scaevola no qui, an per dolores
-                                    pericula torquatos. Vel erat saperet disputationi te, tation torquatos in pro. </p>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="row">
-                            <div class="col-3">
-                                <h5 class="mb-1">Exercise 3</h5>
-                            </div>
-                            <div class="col-6">
-                                <small>Description:</small>
-                                <p class="mb-1">Lorem ipsum dolor sit amet, eruditi scaevola no qui, an per dolores
-                                    pericula torquatos. Vel erat saperet disputationi te, tation torquatos in pro. </p>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="row">
-                            <div class="col-3">
-                                <h5 class="mb-1">Exercise 4</h5>
-                            </div>
-                            <div class="col-6">
-                                <small>Description:</small>
-                                <p class="mb-1">Lorem ipsum dolor sit amet, eruditi scaevola no qui, an per dolores
-                                    pericula torquatos. Vel erat saperet disputationi te, tation torquatos in pro. </p>
-                            </div>
-                        </div>
-                    </a>
+                        </a>
+
+                    </c:forEach>
                 </div>
             </div>
             <!--end Exercises-->

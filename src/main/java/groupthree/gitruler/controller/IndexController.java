@@ -1,5 +1,6 @@
 package groupthree.gitruler.controller;
 
+import groupthree.gitruler.GitrulerApplication;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,7 +17,7 @@ public class IndexController {
    * authenticated.
    */
   @RequestMapping("/")
-  public String index(Model model) {
+  public String index() {
 
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -27,9 +28,14 @@ public class IndexController {
     return "index";
   }
 
-  /** Handles the route for the exercises page containing the list of exercises. */
+  /**
+   * Handles the route for the exercises page containing the list of exercises.
+   */
   @RequestMapping("/exercises")
   public String exerciseList(Model model) {
+
+    model.addAttribute("exercises", GitrulerApplication.getExercises());
+
     return "exercises";
   }
 

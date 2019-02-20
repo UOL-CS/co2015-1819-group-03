@@ -62,6 +62,12 @@ dependencies {
   compile("javax.servlet:jstl:1.2")
   compile("org.apache.tomcat.embed:tomcat-embed-jasper:$jasperVersion")
   
+  //Persistence
+  compile("javax.xml.bind:jaxb-api:2.3.0")
+  compile("org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}")
+  runtime("mysql:mysql-connector-java")
+  testCompile("com.h2database:h2")
+  
   // Spring
   testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
   // Groovy

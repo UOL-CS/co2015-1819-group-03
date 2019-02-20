@@ -1,6 +1,22 @@
 spring:
+#  datasource:
+#    url: jdbc:h2:file:~/testdb;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
   datasource:
-    url: jdbc:h2:file:~/testdb;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
+    platform: mysql
+    url: jdbc:mysql://127.0.0.1:3307/UID_HERE
+    username: UID_HERE
+    password: PASSWORD_HERE
+    driverClassName: com.mysql.jdbc.Driver
+  jpa:
+    hibernate: 
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        type: TRACE
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
   mvc:
     view:
       prefix: /WEB-INF/views/
@@ -24,3 +40,12 @@ spring:
             jwk-set-uri: https://gitlab.com/oauth/discovery/keys
 server:
   port: 8090
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor: 
+            sql:
+              BasicBinder: TRACE

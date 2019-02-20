@@ -1,10 +1,23 @@
 package groupthree.gitruler.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity(name="exercises")
 public class Exercise {
-
+  
+  @Id
+  @GeneratedValue(strategy=GenerationType.TABLE)
+  @Column(name = "id", unique = true, nullable = false)
   private int id;
+  
+  @Column(name = "name", unique = true, nullable = false, length = 100)
   private String name;
+
+  @Column(name = "description")
   private String description;
 
   public int getId() {

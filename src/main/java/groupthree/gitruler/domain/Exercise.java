@@ -6,11 +6,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity(name="exercises")
+@Entity(name = "exercises")
 public class Exercise {
   
   @Id
-  @GeneratedValue(strategy=GenerationType.TABLE)
+  @GeneratedValue(strategy = GenerationType.TABLE)
   @Column(name = "id", unique = true, nullable = false)
   private int id;
   

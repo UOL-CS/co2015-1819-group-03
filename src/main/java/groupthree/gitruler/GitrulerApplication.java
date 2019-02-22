@@ -32,7 +32,7 @@ public class GitrulerApplication {
 
     Exercise ex;
     
-    for (int i = 0; i <= 10; i++) {
+    for (int i = 1; i <= 10; i++) {
       ex = new Exercise();
       ex.setName("Exercise " + i);
       ex.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "

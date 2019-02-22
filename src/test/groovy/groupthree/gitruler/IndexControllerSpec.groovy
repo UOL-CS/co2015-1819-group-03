@@ -3,6 +3,7 @@ package groupthree.gitruler
 import org.junit.Before
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.core.Authentication
 import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.context.ContextConfiguration;
@@ -24,7 +25,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 
 @ContextConfiguration
-@WebMvcTest(controllers=[IndexController.class])
+@SpringBootTest(classes=[GitrulerApplication.class])
 class IndexControllerSpec extends Specification{
 
   @Autowired

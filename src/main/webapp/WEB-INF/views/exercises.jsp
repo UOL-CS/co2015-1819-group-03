@@ -42,8 +42,8 @@
     <!--tab-->
     <ul class="nav hidden-lg-down shadow-sm" style="padding-left: 10%">
         <li class="nav-item">
-            <a class="nav-link active" id="popular-tab" data-toggle="tab" href="#popular" role="tab"
-                aria-controls="popular" aria-selected="true">Popular</a>
+            <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all" role="tab"
+                aria-controls="all" aria-selected="true">All</a>
         </li>
     </ul>
     <!--end tab-->
@@ -55,6 +55,10 @@
                 <!--Exercises-->
                 <div class="container mt-3">
                     <div class="list-group">
+                    
+                      <c:if test="${isEmpty}">
+                        <h1 class="text-center mt-5 display-4">No exercises available.</h1>
+                      </c:if>
 
                         <c:forEach items="${exercises}" var="exercise">
 

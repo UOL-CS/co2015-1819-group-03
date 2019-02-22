@@ -46,7 +46,7 @@ public class IndexController {
     exercises = (List<Exercise>) exRepo.findAll();
 
     if (exercises.isEmpty()) {
-      System.out.println("empty db");
+      model.addAttribute("isEmpty", exercises.isEmpty());
     } else {
       model.addAttribute("exercises", exercises);
     }

@@ -19,6 +19,12 @@ public class Exercise {
 
   @Column(name = "description")
   private String description;
+  
+  @Column(name = "icon")
+  private String icon;
+  
+  @Column(name = "point")
+  private int point;
 
   public int getId() {
     return id;
@@ -43,4 +49,21 @@ public class Exercise {
   public void setDescription(String description) {
     this.description = description;
   }
+  
+  public String getIcon() {
+    return icon;
+  }
+
+  public void setIcon(String icon) {
+    this.icon = icon;
+  }
+
+  public int getPoint() {
+    return point;
+  }
+
+  public void setPoint(int point) {
+    this.point = point;
+  }
+  
 }

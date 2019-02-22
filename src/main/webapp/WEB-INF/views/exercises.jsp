@@ -4,10 +4,10 @@
 
 <head>
     <title>GitRuler - Exercises</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
-        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/custom.css">
 </head>
 
@@ -62,7 +62,7 @@
                                 class="list-group-item list-group-item-action flex-column align-items-start shadow-sm">
                                 <div class="row">
                                     <div class="col-lg-2 col-md-4 d-none d-sm-block">
-                                        <!-- Add Icon here -->
+                                        <img src="${exercise.icon}" class="img-fluid">
                                     </div>
                                     <div class="col-lg-7 col-md-6 col-sm-6">
                                         <h4 class="mb-1">
@@ -71,6 +71,10 @@
                                         <p class="mb-1">
                                             <c:out value="${exercise.description}" />
                                         </p>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-12">
+                                    <span class="badge badge-primary badge-pill float-right"><c:out
+                                            value="${exercise.point}"/> points</span>
                                     </div>
                                 </div>
                             </a>
@@ -88,14 +92,14 @@
     <!-- end body  -->
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js"
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js"
         integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP"
         crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
-    <script src="assets/js/custom.js"></script>
+    <script src="js/custom.js"></script>
 </body>
 
 </html>

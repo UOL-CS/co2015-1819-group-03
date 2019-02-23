@@ -17,11 +17,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import spock.lang.Specification
 import groupthree.gitruler.controller.IndexController
+import groupthree.gitruler.domain.Exercise
+import groupthree.gitruler.repository.ExerciseRepository
+
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.*;
 import org.springframework.security.core.context.SecurityContextHolder;
-
+import org.springframework.dao.DataIntegrityViolationException
 
 
 @ContextConfiguration
@@ -31,10 +34,11 @@ class IndexControllerSpec extends Specification{
   @Autowired
   private WebApplicationContext wac;
 
+  @Autowired
+  private ExerciseRepository exRepo;
+  
   private MockMvc mockMvc;
   private ResultActions result;
-  
-  
   
   @WithMockUser
   def "GET /exercises shows view exercises when authenticated" (){
@@ -49,7 +53,6 @@ class IndexControllerSpec extends Specification{
           result.andExpect(view().name("exercises"))
   }
 
-  
   
   @WithMockUser
   def "GET / redirects to /exercises" (){
@@ -86,5 +89,120 @@ class IndexControllerSpec extends Specification{
     then: "I should be unauthenticated"
           result.andExpect(unauthenticated())
   }
+  
+  def "GET / shows exercises page with no exercises" () {
+    
+     given: "the context of the controller is setup"
+             this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build()
+       and: "the exercises repository has no exercises"
+             exRepo.deleteAll()
+     when:  "I perform an HTTP GET /exercises"
+             result = this.mockMvc.perform(get("/exercises"))
+     then:  "the model should contain attribute isEmpty which is true"
+             result.andExpect(model().attribute("isEmpty", is(true)))
+  }
+  
+  
+  def "GET / shows exercises page with 1 exercise" () {
+    
+    given: "the context of the controller is setup"
+           this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build()
+      and: "the exercises repository has 1 exercise"
+           exRepo.deleteAll()
+           
+           Exercise ex = new Exercise()
+           ex.setName("Exercise 1")
+           ex.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
+               + "Aenean mattis vel purus et sagittis nullam.")
+           ex.setIcon("http://tinygraphs.com/labs/isogrids/hexa/Exercise 1?theme=seascape&numcolors=4&size=220&fmt=svg")
+           ex.setPoint(250)
+           
+           exRepo.save(ex)
+           
+    when:  "I perform an HTTP GET /exercises"
+           result = this.mockMvc.perform(get("/exercises"))
+    then:  "the model should contain attribute isEmpty which is null"
+           result.andExpect(model().attribute("isEmpty", is(null)))
+    and:   "the model should contain attribute exercises containing 1 exercise"
+           result.andExpect(model().attribute("exercises", hasSize(1)))
+  }
+    
+  def "find all exercises in the repository" () {
+    
+    given: "two different exercises"
+           exRepo.deleteAll()
+           
+           Exercise ex = new Exercise()
+           ex.setName("Exercise 1")
+           
+           Exercise ex2 = new Exercise()
+           ex2.setName("Exercise 2")
+
+    when: "saving the exercises into the repository"
+           exRepo.save(ex)
+           exRepo.save(ex2)
+    then:
+           assertThat(exRepo.findAll(), hasSize(2))
+  }
+  
+  def "exercise with null attributes" () {
+
+    given: "the exercise has attributes set to null"
+           exRepo.deleteAll()
+           
+           Exercise ex = new Exercise()
+           ex.setName(null)
+           ex.setDescription(null)
+    when:  "saving the exercise into the repository"
+           exRepo.save(ex)
+    then:  "throw an exception"
+           thrown(DataIntegrityViolationException)
+    
+  }
+  
+  def "two exercises with the same name" () {
+    
+    given: "two exercises with the name attribute identical"
+           exRepo.deleteAll();
+
+           Exercise ex = new Exercise()
+           ex.setName("Exercise 1")
+           
+           Exercise ex2 = new Exercise()
+           ex2.setName("Exercise 1")
+           
+    when:  "saving the exercises into the repository"
+           exRepo.save(ex)
+           exRepo.save(ex2)
+    then:  "throw an exception"
+           thrown(DataIntegrityViolationException)
+  }
+  
+  def "exercise with no set attributes" () {
+    
+    given: "an empty exercise object"
+           exRepo.deleteAll()
+           Exercise ex = new Exercise()
+    when:  "saving the exercise into the repository"
+           exRepo.save(ex)
+    then:  "throw an exception"
+           thrown(DataIntegrityViolationException)
+  }
+  
+  def "repository is empty when last one is deleted" () {
+    given: "a single exercise in the repository"
+           exRepo.deleteAll()
+           
+           Exercise ex = new Exercise()
+           ex.setName("Exercise 1")
+           
+           exRepo.save(ex)
+           
+    when: "deleting the exercise from the repository"
+           exRepo.delete(ex)
+    then: "repository should be empty"
+           assertThat(exRepo.findAll(), empty());
+  }
+  
   
 }

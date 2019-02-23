@@ -32,7 +32,7 @@
     <!-- body  -->
     <!--top-box-->
     <section class="top-box text-dark">
-        <div class="container-fluid ml-5">
+        <div class="container-fluid">
             <h1 class="display-4"><strong>Git Exercises</strong></h1>
             <p class="lead"><strong>All the available exercises for you to complete.</strong></p>
         </div>
@@ -40,7 +40,7 @@
     <!-- end top-box-->
 
     <!--tab-->
-    <ul class="nav hidden-lg-down shadow-sm" style="padding-left: 10%">
+    <ul class="nav hidden-lg-down shadow-sm" style="padding-left: 10.5%">
         <li class="nav-item">
             <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all" role="tab"
                 aria-controls="all" aria-selected="true">All</a>

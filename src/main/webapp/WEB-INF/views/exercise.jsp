@@ -33,14 +33,14 @@
 
 <!--top-box-->
 <section class="top-box text-dark"
-         style="background: linear-gradient(to right, #ebfaf8 25%,rgba(255,255,255,0) 100%), url(https://www.tinygraphs.com/isogrids/banner/random/gradient?theme=frogideas&h=450&xt=35&w=3000&numcolors=4);background-attachment: fixed;">
+         style="background: linear-gradient(to right, #ebfaf8 25%,rgba(255,255,255,0) 100%), url(https://www.tinygraphs.com/isogrids/banner/random/gradient?theme=${exercise.theme}&h=450&xt=35&w=3000&numcolors=4);background-attachment: fixed;">
     <div class="d-flex justify-content-start">
         <div class="col-lg-2 d-none d-lg-block" style="max-width: 180px;">
-            <img src="${exercise.icon}"
+            <img src="http://tinygraphs.com/labs/isogrids/hexa/${exercise.name}?theme=${exercise.theme}&numcolors=4&size=150&fmt=svg"
                  class="img-fluid">
         </div>
         <div class="align-self-center">
-            <h1 class="display-4"><strong><c:out value="${exercise.name}"/></strong></h1>
+            <h1 class="mb-2"><c:out value="${exercise.name}"/></h1>
         </div>
     </div>
 </section>

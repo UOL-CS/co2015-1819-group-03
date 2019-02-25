@@ -66,7 +66,7 @@
                                 class="list-group-item list-group-item-action flex-column align-items-start shadow-sm">
                                 <div class="row">
                                     <div class="col-lg-2 col-md-4 d-none d-sm-block">
-                                        <img src="${exercise.icon}" class="img-fluid">
+                                        <img src="http://tinygraphs.com/labs/isogrids/hexa/${exercise.name}?theme=${exercise.theme}&numcolors=4&size=150&fmt=svg" class="img-fluid">
                                     </div>
                                     <div class="col-lg-7 col-md-6 col-sm-6">
                                         <h4 class="mb-1">

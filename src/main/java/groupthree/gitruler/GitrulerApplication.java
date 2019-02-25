@@ -3,6 +3,8 @@ package groupthree.gitruler;
 import groupthree.gitruler.domain.Exercise;
 import groupthree.gitruler.repository.ExerciseRepository;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,37 +17,37 @@ import org.springframework.context.event.EventListener;
  */
 @SpringBootApplication
 public class GitrulerApplication {
-  
+
   @Autowired
   private ExerciseRepository exRepo;
 
   public static void main(String[] args) {
     SpringApplication.run(GitrulerApplication.class, args);
   }
-  
+
   /**
-   * This method catches the on ApplicationReadyEvent and inserts dummy data
-   * into the exercise repository when caught.
+   * This method catches the on ApplicationReadyEvent and inserts dummy data into
+   * the exercise repository when caught.
    */
   @EventListener
   public void appReady(ApplicationReadyEvent event) {
-    
-    String themes[] = {"sugarsweets","heatwave","daisygarden","seascape","summerwarmth","bythepool","duskfalling","frogideas","berrypie"};
+
+    String[] themes = { "sugarsweets", "heatwave", "daisygarden", "seascape", "summerwarmth", 
+        "bythepool", "duskfalling", "frogideas", "berrypie" };
 
     Exercise ex;
-    
-    for(int i = 1; i <= 8; i++) {
+
+    for (int i = 1; i <= 8; i++) {
       ex = new Exercise();
       ex.setName("Exercise " + i);
-      ex.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
+      ex.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. " 
           + "Aenean mattis vel purus et sagittis nullam.");
-      ex.setTheme(themes[(int)(Math.random() * 9)]);
-      ex.setPoint((int)(Math.round((Math.random() * 501)/50)*50));
-      
+      ex.setTheme(themes[new Random().nextInt(9)]);
+      ex.setPoint((new Random().nextInt(41) + 10) * 10);
+
       exRepo.save(ex);
-}
-      
-    
+    }
+
   }
-      
+
 }

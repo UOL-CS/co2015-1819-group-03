@@ -182,6 +182,7 @@ class IndexControllerSpec extends Specification{
     given: "an empty exercise object"
            exRepo.deleteAll()
            Exercise ex = new Exercise()
+           
     when:  "saving the exercise into the repository"
            exRepo.save(ex)
     then:  "throw an exception"
@@ -189,19 +190,68 @@ class IndexControllerSpec extends Specification{
   }
   
   def "repository is empty when last one is deleted" () {
+    
     given: "a single exercise in the repository"
            exRepo.deleteAll()
            
            Exercise ex = new Exercise()
            ex.setName("Exercise 1")
-           
            exRepo.save(ex)
-           
+            
     when: "deleting the exercise from the repository"
            exRepo.delete(ex)
     then: "repository should be empty"
            assertThat(exRepo.findAll(), empty());
   }
   
-  
-}
+  def "GET /exercise/1 returns exercise view" (){
+    
+     given: "the context of the controller is setup"
+            this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build()
+     when: "I perform an HTTP GET /exercise"
+            result = this.mockMvc.perform(get("/exercise/1"))
+     then: "I should see the view exercise"
+            result.andExpect(view().name("exercise"))
+  }
+    
+  def "Check model to verify exercise has property id" (){
+        
+     given: "the context of the controller is setup"
+            this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build()
+     when:  "I perform an HTTP GET /exercise/1"
+            result = this.mockMvc.perform(get("/exercise/1"))
+     then:  "the model should contain an exercise with id 1"
+            result.andExpect(model().attribute("exercise", hasProperty("id", is(1))))
+  }
+    
+  def "Check model to verify exercise has property name" (){
+    
+     given: "the context of the controller is setup"
+            this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build()
+     when:  "I perform an HTTP GET /exercise/1"
+            result = this.mockMvc.perform(get("/exercise/1"))
+     then:  "the model should contain an exercise with name Exercise 1"
+            result.andExpect(model().attribute("exercise", hasProperty("name", is("Exercise 1"))))
+  }
+      
+      
+  def "Check model to verify exercise has property theme" (){
+    
+     given: "the context of the controller is setup"
+            this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build()
+     when:  "I perform an HTTP GET /exercise/1"
+            result = this.mockMvc.perform(get("/exercise/1"))
+     then:  "the model should contain an exercise with a theme"
+            result.andExpect(model().attribute("exercise", hasProperty("theme")))
+  }
+      
+  def "GET /exercises returns exercises view" (){
+        
+     given: "the context of the controller is setup"
+            this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build()
+     when:  "I perform an HTTP GET /exercises"
+            result = this.mockMvc.perform(get("/exercises"))
+     then:  "I should see the view exercises"
+            result.andExpect(view().name("exercises"))
+  }
+ }

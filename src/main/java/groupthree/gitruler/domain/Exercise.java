@@ -20,8 +20,8 @@ public class Exercise {
   @Column(name = "description")
   private String description;
   
-  @Column(name = "icon")
-  private String icon;
+  @Column(name = "theme")
+  private String theme;
   
   @Column(name = "point")
   private int point;
@@ -50,12 +50,12 @@ public class Exercise {
     this.description = description;
   }
   
-  public String getIcon() {
-    return icon;
+  public String getTheme() {
+    return theme;
   }
 
-  public void setIcon(String icon) {
-    this.icon = icon;
+  public void setTheme(String theme) {
+    this.theme = theme;
   }
 
   public int getPoint() {

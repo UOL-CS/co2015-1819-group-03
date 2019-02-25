@@ -114,7 +114,6 @@ class IndexControllerSpec extends Specification{
            ex.setName("Exercise 1")
            ex.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
                + "Aenean mattis vel purus et sagittis nullam.")
-           ex.setIcon("http://tinygraphs.com/labs/isogrids/hexa/Exercise 1?theme=seascape&numcolors=4&size=220&fmt=svg")
            ex.setPoint(250)
            
            exRepo.save(ex)

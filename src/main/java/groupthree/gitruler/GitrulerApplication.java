@@ -29,56 +29,22 @@ public class GitrulerApplication {
    */
   @EventListener
   public void appReady(ApplicationReadyEvent event) {
+    
+    String themes[] = {"sugarsweets","heatwave","daisygarden","seascape","summerwarmth","bythepool","duskfalling","frogideas","berrypie"};
 
     Exercise ex;
     
-    ex = new Exercise();
-    ex.setName("Exercise 1");
-    ex.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
-        + "Aenean mattis vel purus et sagittis nullam.");
-    ex.setIcon("http://tinygraphs.com/labs/isogrids/hexa/Exercise 1?theme=seascape&numcolors=4&size=220&fmt=svg");
-    ex.setPoint(250);
-    exRepo.save(ex);
-    
-    ex = new Exercise();
-    ex.setName("Exercise 2");
-    ex.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
-        + "Aenean mattis vel purus et sagittis nullam.");
-    ex.setIcon("http://tinygraphs.com/labs/isogrids/hexa/Exercise 2?theme=bythepool&numcolors=4&size=220&fmt=svg");
-    ex.setPoint(200);
-    exRepo.save(ex);
-    
-    ex = new Exercise();
-    ex.setName("Exercise 3");
-    ex.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
-        + "Aenean mattis vel purus et sagittis nullam.");
-    ex.setIcon("http://tinygraphs.com/labs/isogrids/hexa/Exercise 3?theme=heatwave&numcolors=4&size=220&fmt=svg");
-    ex.setPoint(300);
-    exRepo.save(ex);
-    
-    ex = new Exercise();
-    ex.setName("Exercise 4");
-    ex.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
-        + "Aenean mattis vel purus et sagittis nullam.");
-    ex.setIcon("http://tinygraphs.com/labs/isogrids/hexa/Exercise 4?theme=duskfalling&numcolors=4&size=220&fmt=svg");
-    ex.setPoint(100);
-    exRepo.save(ex);
-    
-    ex = new Exercise();
-    ex.setName("Exercise 5");
-    ex.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
-        + "Aenean mattis vel purus et sagittis nullam.");
-    ex.setIcon("http://tinygraphs.com/labs/isogrids/hexa/Exercise 5?theme=summerwarmth&numcolors=4&size=220&fmt=svg");
-    ex.setPoint(250);
-    exRepo.save(ex);
-    
-    ex = new Exercise();
-    ex.setName("Exercise 6");
-    ex.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
-        + "Aenean mattis vel purus et sagittis nullam.");
-    ex.setIcon("http://tinygraphs.com/labs/isogrids/hexa/Exercise 6?theme=duskfalling&numcolors=4&size=220&fmt=svg");
-    ex.setPoint(200);
-    exRepo.save(ex);   
+    for(int i = 1; i <= 8; i++) {
+      ex = new Exercise();
+      ex.setName("Exercise " + i);
+      ex.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
+          + "Aenean mattis vel purus et sagittis nullam.");
+      ex.setTheme(themes[(int)(Math.random() * 9)]);
+      ex.setPoint((int)(Math.round((Math.random() * 501)/50)*50));
+      
+      exRepo.save(ex);
+}
+      
     
   }
       

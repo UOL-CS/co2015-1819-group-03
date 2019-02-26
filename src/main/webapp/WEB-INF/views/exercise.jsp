@@ -34,7 +34,7 @@
 
 <!--top-box-->
 <section class="top-box text-dark"
-         style="background: linear-gradient(to right, #ebfaf8 25%,rgba(255,255,255,0) 100%), url(https://www.tinygraphs.com/isogrids/banner/random/gradient?theme=${exercise.theme}&h=450&xt=35&w=3000&numcolors=4);background-attachment: fixed;">
+         style="background: linear-gradient(to right, #ebfaf8 25%,rgba(255,255,255,0) 100%), url(https://www.tinygraphs.com/isogrids/banner/random/gradient?theme=${exercise.theme}&h=450&xt=35&w=3000&numcolors=4);">
     <div class="d-flex justify-content-start">
         <div class="col-lg-2 d-none d-lg-block" style="max-width: 180px;">
             <img src="http://tinygraphs.com/labs/isogrids/hexa/${exercise.name}?theme=${exercise.theme}&numcolors=4&size=150&fmt=svg"

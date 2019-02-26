@@ -1,21 +1,16 @@
 package groupthree.gitruler.domain;
 
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
+
+import javax.persistence.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-import org.commonmark.node.Node;
-import org.commonmark.parser.Parser;
-import org.commonmark.renderer.html.HtmlRenderer;
 
 @Entity(name = "exercises")
 public class Exercise {
@@ -84,8 +79,8 @@ public class Exercise {
   public void setRepository(String repository) {
     this.repository = repository;
   }
-  
-  private URL getReadmeUrl() {
+
+  public URL getReadmeUrl() {
     URL url = null;
     try {
       url = new URL(repository + "/raw/master/README.md");
@@ -96,11 +91,10 @@ public class Exercise {
     return url;
   }
 
-  private String parseReadmeUrl() {
+  public String parseReadmeUrl(URL url) {
     StringBuilder contents = new StringBuilder();
-    URL url = getReadmeUrl();
     try (BufferedReader reader = new BufferedReader(
-        new InputStreamReader(url.openStream(), "UTF-8"))) {
+            new InputStreamReader(url.openStream(), "UTF-8"))) {
       for (String line; (line = reader.readLine()) != null;) {
         contents.append(line + "\n");
       }
@@ -109,20 +103,18 @@ public class Exercise {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    
+
     return contents.toString();
   }
-  
+
   /**
    * Parses the retrieved markdown and produces HTML.
    */
-  public String renderMarkdown() {
-    String contents = parseReadmeUrl();
+  public String renderMarkdown(String contents) {
     Parser parser = Parser.builder().build();
     Node document = parser.parse(contents);
     HtmlRenderer renderer = HtmlRenderer.builder().softbreak("\n").build();
-    
+
     return renderer.render(document);
   }
-  
 }

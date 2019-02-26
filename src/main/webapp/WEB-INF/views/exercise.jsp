@@ -9,6 +9,7 @@
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css" />
 </head>
 
 <body>
@@ -45,6 +46,15 @@
     </div>
 </section>
 <!-- end top-box-->
+
+<!--tab-->
+<ul class="nav hidden-lg-down shadow-sm" style="padding-left: 10.5%">
+    <li class="nav-item">
+        <a class="nav-link active" id="instructions-tab" data-toggle="tab" href="#instructions" role="tab"
+           aria-controls="instructions" aria-selected="true">Instructions</a>
+    </li>
+</ul>
+<!--end tab-->
 
 <!--bottom-box-->
 <section class="bottom-box">

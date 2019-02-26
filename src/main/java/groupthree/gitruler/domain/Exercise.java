@@ -85,7 +85,7 @@ public class Exercise {
     this.repository = repository;
   }
   
-  private URL getReadmeURL() {
+  private URL getReadmeUrl() {
     URL url = null;
     try {
       url = new URL(repository + "/raw/master/README.md");
@@ -96,12 +96,13 @@ public class Exercise {
     return url;
   }
 
-  private String parseReadmeURL() {
-    String contents = "";
-    URL url = getReadmeURL();
-    try (BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"))) {
+  private String parseReadmeUrl() {
+    StringBuilder contents = new StringBuilder();
+    URL url = getReadmeUrl();
+    try (BufferedReader reader = new BufferedReader(
+        new InputStreamReader(url.openStream(), "UTF-8"))) {
       for (String line; (line = reader.readLine()) != null;) {
-        contents = contents + line + "\n";
+        contents.append(line + "\n");
       }
     } catch (UnsupportedEncodingException e) {
       e.printStackTrace();
@@ -109,11 +110,14 @@ public class Exercise {
       e.printStackTrace();
     }
     
-    return contents;
+    return contents.toString();
   }
   
+  /**
+   * Parses the retrieved markdown and produces HTML.
+   */
   public String renderMarkdown() {
-    String contents = parseReadmeURL();
+    String contents = parseReadmeUrl();
     Parser parser = Parser.builder().build();
     Node document = parser.parse(contents);
     HtmlRenderer renderer = HtmlRenderer.builder().softbreak("\n").build();

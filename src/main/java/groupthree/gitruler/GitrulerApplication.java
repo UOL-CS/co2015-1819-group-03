@@ -53,7 +53,7 @@ public class GitrulerApplication {
           + "Aenean mattis vel purus et sagittis nullam.");
       ex.setTheme(themes[new Random().nextInt(9)]);
       ex.setPoint((new Random().nextInt(41) + 10) * 10);
-      ex.setRepository(repositories[i-1]);
+      ex.setRepository(repositories[i - 1]);
       
       exRepo.save(ex);
     }

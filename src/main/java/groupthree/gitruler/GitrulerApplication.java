@@ -34,17 +34,27 @@ public class GitrulerApplication {
 
     String[] themes = { "sugarsweets", "heatwave", "daisygarden", "seascape", "summerwarmth", 
         "bythepool", "duskfalling", "frogideas", "berrypie" };
-
+    
+    String[] repositories = {
+        "https://gitlab.com/gitlab-org/gitlab-ce",
+        "https://gitlab.com/gitlab-org/gitlab-runner",
+        "https://gitlab.com/inkscape/inkscape",
+        "https://gitlab.com/gnachman/iterm2",
+        "https://gitlab.com/gitlab-org/omnibus-gitlab",
+        "https://gitlab.com/tortoisegit/tortoisegit"
+    };
+   
     Exercise ex;
 
-    for (int i = 1; i <= 8; i++) {
+    for (int i = 1; i <= 6; i++) {
       ex = new Exercise();
       ex.setName("Exercise " + i);
       ex.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. " 
           + "Aenean mattis vel purus et sagittis nullam.");
       ex.setTheme(themes[new Random().nextInt(9)]);
       ex.setPoint((new Random().nextInt(41) + 10) * 10);
-
+      ex.setRepository(repositories[i-1]);
+      
       exRepo.save(ex);
     }
 

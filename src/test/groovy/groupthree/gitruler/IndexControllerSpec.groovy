@@ -117,7 +117,7 @@ class IndexControllerSpec extends Specification{
            ex.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
                + "Aenean mattis vel purus et sagittis nullam.")
            ex.setPoint(250)
-           
+           ex.setRepository("https://gitlab.com/gitlab-org/gitlab-ce")
            exRepo.save(ex)
            
     when:  "I perform an HTTP GET /exercises"
@@ -135,9 +135,11 @@ class IndexControllerSpec extends Specification{
            
            Exercise ex = new Exercise()
            ex.setName("Exercise 1")
+           ex.setRepository("https://gitlab.com/gitlab-org/gitlab-ce")
            
            Exercise ex2 = new Exercise()
            ex2.setName("Exercise 2")
+           ex2.setRepository("https://gitlab.com/gitlab-org/gitlab-runner")
 
     when: "saving the exercises into the repository"
            exRepo.save(ex)
@@ -154,6 +156,7 @@ class IndexControllerSpec extends Specification{
            Exercise ex = new Exercise()
            ex.setName(null)
            ex.setDescription(null)
+           ex.setRepository(null)
     when:  "saving the exercise into the repository"
            exRepo.save(ex)
     then:  "throw an exception"
@@ -168,9 +171,11 @@ class IndexControllerSpec extends Specification{
 
            Exercise ex = new Exercise()
            ex.setName("Exercise 1")
+           ex.setRepository("https://gitlab.com/gitlab-org/gitlab-ce")
            
            Exercise ex2 = new Exercise()
            ex2.setName("Exercise 1")
+           ex2.setRepository("https://gitlab.com/gitlab-org/gitlab-ce")
            
     when:  "saving the exercises into the repository"
            exRepo.save(ex)
@@ -198,6 +203,7 @@ class IndexControllerSpec extends Specification{
            
            Exercise ex = new Exercise()
            ex.setName("Exercise 1")
+           ex.setRepository("https://gitlab.com/gitlab-org/gitlab-ce")
            exRepo.save(ex)
             
     when: "deleting the exercise from the repository"

@@ -17,14 +17,14 @@ public class Exercise {
   @Column(name = "name", unique = true, nullable = false, length = 100)
   private String name;
 
-  @Column(name = "description")
   private String description;
   
-  @Column(name = "theme")
   private String theme;
   
-  @Column(name = "point")
   private int point;
+  
+  @Column(name = "repository", unique = true, nullable = false)
+  private String repository;
 
   public int getId() {
     return id;
@@ -64,6 +64,14 @@ public class Exercise {
 
   public void setPoint(int point) {
     this.point = point;
+  }
+  
+  public String getRepository() {
+    return repository;
+  }
+
+  public void setRepository(String repository) {
+    this.repository = repository;
   }
   
 }

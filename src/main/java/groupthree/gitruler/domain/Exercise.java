@@ -13,6 +13,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
+
 @Entity(name = "exercises")
 public class Exercise {
   
@@ -106,6 +110,15 @@ public class Exercise {
     }
     
     return contents;
+  }
+  
+  public String renderMarkdown() {
+    String contents = parseReadmeURL();
+    Parser parser = Parser.builder().build();
+    Node document = parser.parse(contents);
+    HtmlRenderer renderer = HtmlRenderer.builder().softbreak("\n").build();
+    
+    return renderer.render(document);
   }
   
 }

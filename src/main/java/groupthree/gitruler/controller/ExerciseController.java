@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/exercise")
 public class ExerciseController {
-  
+
   @Autowired
   private ExerciseRepository exRepo;
 
@@ -24,8 +24,9 @@ public class ExerciseController {
   public String exercise(@PathVariable int id, Model model) {
     Exercise e = exRepo.findById(id);
     model.addAttribute("exercise", e);
+    model.addAttribute("instruction", e.renderMarkdown());
     return "exercise";
   }
-  
-  
+
+
 }

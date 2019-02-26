@@ -46,6 +46,26 @@
 </section>
 <!-- end top-box-->
 
+<!--bottom-box-->
+<section class="bottom-box">
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="instructions" role="tabpanel" aria-labelledby="instructions-tab">
+            <!--Instructions-->
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 readme">
+                        <article class="markdown-body">
+                            ${instruction}
+                        </article>
+                    </div>
+                </div>
+            </div>
+            <!--end Instructions-->
+        </div>
+    </div>
+</section>
+<!--bottom-box-->
+
 <!-- end body  -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js"

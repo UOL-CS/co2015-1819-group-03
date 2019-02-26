@@ -1,5 +1,12 @@
 package groupthree.gitruler.domain;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -72,6 +79,33 @@ public class Exercise {
 
   public void setRepository(String repository) {
     this.repository = repository;
+  }
+  
+  private URL getReadmeURL() {
+    URL url = null;
+    try {
+      url = new URL(repository + "/raw/master/README.md");
+    } catch (MalformedURLException e) {
+      e.printStackTrace();
+    }
+
+    return url;
+  }
+
+  private String parseReadmeURL() {
+    String contents = "";
+    URL url = getReadmeURL();
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"))) {
+      for (String line; (line = reader.readLine()) != null;) {
+        contents = contents + line + "\n";
+      }
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    
+    return contents;
   }
   
 }

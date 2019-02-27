@@ -262,4 +262,102 @@ class IndexControllerSpec extends Specification{
      then:  "I should see the view exercises"
             result.andExpect(view().name("exercises"))
   }
+  
+  def "Check model to verify exercise has property description" (){
+    
+     given: "the context of the controller is setup"
+            this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build()
+     when:  "I perform an HTTP GET /exercise/1"
+            result = this.mockMvc.perform(get("/exercise/1"))
+     then:  "the model should contain an exercise with a description"
+            result.andExpect(model().attribute("exercise", hasProperty("description")))
+  }
+  
+    
+      
+  def "find the exercise by its description in the repository" () {
+        
+     given: "a single exercise in the repository"
+            exRepo.deleteAll()
+        
+            Exercise ex = new Exercise()
+            ex.setName("Exercise 1")
+            ex.setRepository("https://gitlab.com/gitlab-org/gitlab-ce")
+            ex.setDescription("Description")
+                   
+      when: "saving the exercise into the repository"
+            exRepo.save(ex)
+      then: "repository should have one exercise with a Description"
+            assertThat(exRepo.findByDescription("Description"), hasSize(1));
+  }
+          
+  def "find the exercise by its name in the repository" () {
+            
+     given: "a single exercise in the repository"
+            exRepo.deleteAll()
+            
+            Exercise ex = new Exercise()
+            ex.setName("Exercise 1")
+            ex.setRepository("https://gitlab.com/example/exercise1")
+                       
+                 
+      when: "saving the exercise into the repository"
+            exRepo.save(ex)
+      then: "repository should have one exercise with a name"
+            assertThat(exRepo.findByName("Exercise 1"), hasSize(1));
+  }
+              
+              
+  def "Check the exercise repository url" (){
+         
+     given: "a single exercise in the repository"
+            exRepo.deleteAll()
+
+            Exercise ex = new Exercise()
+            ex.setName("Exercise 1")
+            ex.setRepository("https://gitlab.com/example/exercise1")
+                
+      when: "saving the exercise into the repository"
+            exRepo.save(ex)
+                
+      then: "repository should have one exercise with a repository url"
+            assertThat(exRepo.findByName("Exercise 1").get(0).getRepository(),is("https://gitlab.com/example/exercise1"));
+                         
+  }
+       
+       
+  def "Check the exercise point" (){
+         
+     given: "a single exercise in the repository"
+            exRepo.deleteAll()
+
+            Exercise ex = new Exercise()
+            ex.setName("Exercise 1")
+            ex.setRepository("https://gitlab.com/example/exercise1")
+            ex.setPoint(10)
+                
+      when: "saving the exercise into the repository"
+            exRepo.save(ex)
+                
+      then: "repository should have one exercise with a repository url"
+            assertThat(exRepo.findByName("Exercise 1").get(0).getPoint(),is(10));
+                         
+  }
+       
+  def "exercise with no set repository" () {
+         
+     given: "a single exercise in the repository"
+            exRepo.deleteAll()
+            Exercise ex = new Exercise()
+            ex.setName("Exercise 1")
+            ex.setRepository(null)
+               
+      when: "saving the exercise into the repository"
+            exRepo.save(ex)
+                
+      then: "throw an exception"
+            thrown(DataIntegrityViolationException)
+         
+  }
+
  }

@@ -94,3 +94,8 @@ li.nav-item a.active {
     background-color: #FFF;
     padding: 2%;
 }
+
+/* forking button */
+#start_btn{
+    padding: 3% 25%;
+}

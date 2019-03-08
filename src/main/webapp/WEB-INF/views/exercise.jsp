@@ -9,7 +9,8 @@
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/custom.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css"/>
 </head>
 
 <body>
@@ -41,7 +42,14 @@
                  class="img-fluid">
         </div>
         <div class="align-self-center">
+            <!-- exercise title -->
             <h1 class="mb-2"><c:out value="${exercise.name}"/></h1>
+            <!-- end exercise title -->
+            <!-- start_button -->
+            <a href="<c:out value="${exercise.repository}"/>/forks/new"
+               class="btn btn-outline-dark" role="button" aria-pressed="true"
+               target="_blank" id="start_btn">START</a>
+            <!-- end start_button -->
         </div>
     </div>
 </section>
@@ -64,9 +72,11 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12 readme">
+                        <!-- markdown -->
                         <article class="markdown-body">
                             ${instruction}
                         </article>
+                        <!-- end markdown -->
                     </div>
                 </div>
             </div>

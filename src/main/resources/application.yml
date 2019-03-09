@@ -30,7 +30,7 @@ spring:
             client-secret: CLIENT_SECRET_HERE
             authorization-grant-type: authorization_code
             redirect-uri-template: '{baseUrl}/login/oauth2/code/{registrationId}'
-            scope: openid
+            scope: api
             clientName: GitLab
         provider:
           gitlab:
@@ -38,6 +38,7 @@ spring:
             token-uri: https://gitlab.com/oauth/token
             user-info-uri: https://gitlab.com/api/v4/user
             jwk-set-uri: https://gitlab.com/oauth/discovery/keys
+            user-name-attribute: name
 server:
   port: 8090
 logging:

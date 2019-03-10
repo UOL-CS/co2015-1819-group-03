@@ -33,6 +33,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .defaultSuccessUrl("/exercises")
             .permitAll()
             .tokenEndpoint()
-            .accessTokenResponseClient(new CustomOAuth2AccessTokenResponseClient(restOperations()));
+            .accessTokenResponseClient(new CustomOAuth2AccessTokenResponseClient(restOperations()))
+            .and()
+            .userInfoEndpoint().userService(new CustomOAuth2UserService(restOperations()));
   }
 }

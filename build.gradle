@@ -87,6 +87,9 @@ dependencies {
   
   // Markdown
   compile 'com.atlassian.commonmark:commonmark:0.12.1'
+  
+  // Encryption
+  compile group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '2.1.0'
 }
 
 jacocoTestCoverageVerification {

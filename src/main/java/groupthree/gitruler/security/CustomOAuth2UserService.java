@@ -20,11 +20,16 @@ import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestOperations;
 
+import groupthree.gitruler.domain.User;
+import groupthree.gitruler.repository.UserRepository;
+
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
   private RestOperations restOperations;
+  private UserRepository userRepo;
 
-  public CustomOAuth2UserService(RestOperations restOperations) {
+  public CustomOAuth2UserService(RestOperations restOperations, UserRepository userRepo) {
     this.restOperations = restOperations;    
+    this.userRepo = userRepo;
   }  
  
   @Override
@@ -51,6 +56,16 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     
     Set<GrantedAuthority> authorities = 
         Collections.singleton(new OAuth2UserAuthority(userAttributes));
+    
+    int userId = Integer.parseInt(userAttributes.get("id").toString());
+    String userToken = userRequest.getAccessToken().getTokenValue();
+    User user = userRepo.findById(userId);
+    
+    user = new User();
+    user.setId(userId);
+    user.setToken(userToken);
+
+    userRepo.save(user);
     
     return new DefaultOAuth2User(authorities, userAttributes, userNameAttributeName);  
   }

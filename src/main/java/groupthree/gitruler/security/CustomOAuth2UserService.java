@@ -1,5 +1,8 @@
 package groupthree.gitruler.security;
 
+import groupthree.gitruler.domain.User;
+import groupthree.gitruler.repository.UserRepository;
+
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -21,15 +24,18 @@ import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestOperations;
 
-import groupthree.gitruler.domain.User;
-import groupthree.gitruler.repository.UserRepository;
-
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
   private RestOperations restOperations;
   private UserRepository userRepo;
   private String encryptionPass;
 
-  public CustomOAuth2UserService(RestOperations restOperations, UserRepository userRepo, String encryptionPass) {
+  /**
+   * Constructor to pass Spring injected variables to user created class. 
+   * Spring only supports "autowired" and other annotations
+   * such as "value" only when it is a Spring bean and not using "new".
+   */
+  public CustomOAuth2UserService(RestOperations restOperations, 
+      UserRepository userRepo, String encryptionPass) {
     this.restOperations = restOperations;    
     this.userRepo = userRepo;
     this.encryptionPass = encryptionPass;
@@ -41,7 +47,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint();
     
     String userInfoUrl = userInfoEndpoint.getUri();
-    String userNameAttributeName = userInfoEndpoint.getUserNameAttributeName();
 
     HttpHeaders headers = new HttpHeaders();
     headers.set(HttpHeaders.AUTHORIZATION, 
@@ -57,9 +62,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     Map<String, Object> userAttributes = responseEntity.getBody();
     
-    Set<GrantedAuthority> authorities = 
-        Collections.singleton(new OAuth2UserAuthority(userAttributes));
-    
     int userId = Integer.parseInt(userAttributes.get("id").toString());
     String userToken = userRequest.getAccessToken().getTokenValue();
     User user = userRepo.findById(userId);
@@ -73,6 +75,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     user.setToken(encryptedToken);
 
     userRepo.save(user);
+    
+    Set<GrantedAuthority> authorities = 
+        Collections.singleton(new OAuth2UserAuthority(userAttributes));
+    String userNameAttributeName = userInfoEndpoint.getUserNameAttributeName();
     
     return new DefaultOAuth2User(authorities, userAttributes, userNameAttributeName);  
   }

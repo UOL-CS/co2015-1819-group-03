@@ -27,10 +27,12 @@ import groupthree.gitruler.repository.UserRepository;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
   private RestOperations restOperations;
   private UserRepository userRepo;
+  private String encryptionPass;
 
-  public CustomOAuth2UserService(RestOperations restOperations, UserRepository userRepo) {
+  public CustomOAuth2UserService(RestOperations restOperations, UserRepository userRepo, String encryptionPass) {
     this.restOperations = restOperations;    
     this.userRepo = userRepo;
+    this.encryptionPass = encryptionPass;
   }  
  
   @Override
@@ -63,7 +65,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     User user = userRepo.findById(userId);
     
     StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
-    textEncryptor.setPassword("password");
+    textEncryptor.setPassword(encryptionPass);
     String encryptedToken = textEncryptor.encrypt(userToken);
     
     user = new User();

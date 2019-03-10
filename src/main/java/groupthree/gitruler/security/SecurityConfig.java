@@ -1,6 +1,7 @@
 package groupthree.gitruler.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,6 +18,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   
   @Autowired
   private UserRepository userRepo;
+  
+  @Value("${jasypt.encryptor.password}")
+  private String encryptionPass;
   
   @Bean
   public RestOperations restOperations() {
@@ -41,6 +45,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .tokenEndpoint()
             .accessTokenResponseClient(new CustomOAuth2AccessTokenResponseClient(restOperations()))
             .and()
-            .userInfoEndpoint().userService(new CustomOAuth2UserService(restOperations(), userRepo));
+            .userInfoEndpoint().userService(new CustomOAuth2UserService(restOperations(), userRepo, encryptionPass));
   }
 }

@@ -4,6 +4,7 @@ import groupthree.gitruler.domain.User;
 import groupthree.gitruler.repository.UserRepository;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -62,22 +63,29 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     Map<String, Object> userAttributes = responseEntity.getBody();
     
-    int userId = Integer.parseInt(userAttributes.get("id").toString());
-    String userToken = userRequest.getAccessToken().getTokenValue();
-    User user = userRepo.findById(userId);
+    Set<GrantedAuthority> authorities = Collections.emptySet();
     
-    StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
-    textEncryptor.setPassword(encryptionPass);
-    String encryptedToken = textEncryptor.encrypt(userToken);
+    if (userAttributes != null) {
+      int userId = Integer.parseInt(userAttributes.get("id").toString());
+      String userToken = userRequest.getAccessToken().getTokenValue();
+      User user = userRepo.findById(userId);
+      
+      StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
+      textEncryptor.setPassword(encryptionPass);
+      String encryptedToken = textEncryptor.encrypt(userToken);
+      
+      user = new User();
+      user.setId(userId);
+      user.setToken(encryptedToken);
+  
+      userRepo.save(user);
+      
+      authorities = 
+          Collections.singleton(new OAuth2UserAuthority(userAttributes));
+    } else {
+      userAttributes = new HashMap<String, Object>();
+    }
     
-    user = new User();
-    user.setId(userId);
-    user.setToken(encryptedToken);
-
-    userRepo.save(user);
-    
-    Set<GrantedAuthority> authorities = 
-        Collections.singleton(new OAuth2UserAuthority(userAttributes));
     String userNameAttributeName = userInfoEndpoint.getUserNameAttributeName();
     
     return new DefaultOAuth2User(authorities, userAttributes, userNameAttributeName);  

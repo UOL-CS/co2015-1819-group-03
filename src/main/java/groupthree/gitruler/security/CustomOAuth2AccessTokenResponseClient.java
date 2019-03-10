@@ -54,24 +54,24 @@ public class CustomOAuth2AccessTokenResponseClient
     ResponseEntity<AccessResponseBody> response =
         restOperations.exchange(tokenUri, HttpMethod.POST, entity, AccessResponseBody.class);
         
-    AccessResponseBody accessResponseBody = new AccessResponseBody();
+    AccessResponseBody accessResponseBody = response.getBody();
     Set<String> scopes = Collections.emptySet();
     
-    if (response != null) {
-      accessResponseBody = response.getBody();
-      
+    if (accessResponseBody != null) { 
       if (accessResponseBody.getScopes().isEmpty()) {
         scopes = scope;
       } else {
         scopes = accessResponseBody.getScopes();
       }
+      
+      return OAuth2AccessTokenResponse.withToken(accessResponseBody.getAccessToken())
+          .tokenType(accessResponseBody.getTokenType())
+          .expiresIn(accessResponseBody.getExpiresIn())
+          .scopes(scopes)
+          .build();
     }
     
-    return OAuth2AccessTokenResponse.withToken(accessResponseBody.getAccessToken())
-        .tokenType(accessResponseBody.getTokenType())
-        .expiresIn(accessResponseBody.getExpiresIn())
-        .scopes(scopes)
-        .build();
+    return null;
   }
 
 }

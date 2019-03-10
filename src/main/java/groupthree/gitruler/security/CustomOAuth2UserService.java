@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import org.jasypt.util.text.StrongTextEncryptor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -61,9 +62,13 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     String userToken = userRequest.getAccessToken().getTokenValue();
     User user = userRepo.findById(userId);
     
+    StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
+    textEncryptor.setPassword("password");
+    String encryptedToken = textEncryptor.encrypt(userToken);
+    
     user = new User();
     user.setId(userId);
-    user.setToken(userToken);
+    user.setToken(encryptedToken);
 
     userRepo.save(user);
     

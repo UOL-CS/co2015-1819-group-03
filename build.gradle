@@ -94,7 +94,7 @@ jacocoTestCoverageVerification {
     classDirectories = files(classDirectories.files.collect {
       fileTree(dir: it, exclude: [
         '**/*GitrulerApplication**',
-        '**/*SecurityConfig**',
+        '**/groupthree/gitruler/security/**',
         '**/groupthree/gitruler/domain/**'
       ])
     })
@@ -117,7 +117,7 @@ jacocoTestReport {
     classDirectories = files(classDirectories.files.collect {
       fileTree(dir: it, exclude: [
         '**/*GitrulerApplication**',
-        '**/*SecurityConfig**',
+        '**/groupthree/gitruler/security/**',
         '**/groupthree/gitruler/domain/**'
       ])
     })

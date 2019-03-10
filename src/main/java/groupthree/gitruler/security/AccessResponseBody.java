@@ -1,4 +1,4 @@
-package groupthree.gitruler;
+package groupthree.gitruler.security;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

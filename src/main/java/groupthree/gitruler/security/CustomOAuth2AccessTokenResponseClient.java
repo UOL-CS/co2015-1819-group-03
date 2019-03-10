@@ -1,4 +1,4 @@
-package groupthree.gitruler;
+package groupthree.gitruler.security;
 
 import java.util.Collections;
 import java.util.Set;

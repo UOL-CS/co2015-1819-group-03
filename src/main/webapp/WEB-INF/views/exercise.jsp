@@ -71,11 +71,36 @@
                         <article class="markdown-body">
 
                             <!-- buttons box -->
-                            <div class="buttons_box">
+                            <div class="buttons_box">                           
                                 <div class="card">
+                                
+                                <c:if test="${isForked == false}">
                                     <span class="h5">Get Started</span>
                                     <span class="text-muted">Click the start button to begin the exercise</span>
-                                    <button class="btn bg-info w-100 mt-2" type="button">Start</button>
+                                    <form action="/exercise/${exercise.id}" method="POST">
+                                      <button class="btn bg-info w-100 mt-2" type="submit">Start</button>
+                                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                    </form>
+                                </c:if>
+                                <c:if test="${isForked}">
+                                    <ol>
+                                        <li>
+                                            <span class="h6">Clone repository</span><br>
+                                            <span class="text-muted">Clone repository and solve the exercise on your local machine</span>
+
+                                            <div class="input-group mb-3">
+                                                <input type="text" class="form-control" id="copy_val" readonly
+                                                       value="${repoLink}">
+                                                <div class="input-group-append">
+                                                    <button class="btn bg-secondary copy" type="button"
+                                                            data-clipboard-target="#copy_val"><i
+                                                            class="fas fa-copy"></i></button>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ol>
+                                </c:if>
+                                    
                                 </div>
                             </div>
                             <!-- end buttons box -->

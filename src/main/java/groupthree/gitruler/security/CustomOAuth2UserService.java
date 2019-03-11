@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.jasypt.util.text.StrongTextEncryptor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -68,14 +67,11 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     if (userAttributes != null) {
       int userId = Integer.parseInt(userAttributes.get("id").toString());
       String userToken = userRequest.getAccessToken().getTokenValue();
-      User user = userRepo.findById(userId);
       
-      StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
-      textEncryptor.setPassword(encryptionPass);
-      String encryptedToken = textEncryptor.encrypt(userToken);
-      
-      user = new User();
+      User user = new User();
       user.setId(userId);
+
+      String encryptedToken = user.encryptToken(userToken, encryptionPass);      
       user.setToken(encryptedToken);
   
       userRepo.save(user);

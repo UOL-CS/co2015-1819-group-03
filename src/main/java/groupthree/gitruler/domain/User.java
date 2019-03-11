@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import org.jasypt.util.text.StrongTextEncryptor;
+
 @Entity(name = "user")
 public class User {
 
@@ -40,6 +42,18 @@ public class User {
 
   public void setToken(String token) {
     this.token = token;
+  }
+  
+  public String decryptToken(String token, String password) {
+    StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
+    textEncryptor.setPassword(password);
+    return textEncryptor.decrypt(token);
+  }
+  
+  public String encryptToken(String token, String password) {
+    StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
+    textEncryptor.setPassword(password);
+    return textEncryptor.encrypt(token);
   }
 
 }

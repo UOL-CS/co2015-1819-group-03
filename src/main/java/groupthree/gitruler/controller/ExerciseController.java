@@ -71,7 +71,21 @@ public class ExerciseController {
     ResponseEntity<String> result = null;
     HttpEntity<Object> entity = new HttpEntity<>(headers);
     result = oauth2RestTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
-
+    boolean isForked = false;
+    String repoLink = "";
+    if (result != null) {
+      String resultBody = result.getBody();
+      JSONArray arr = new JSONArray(resultBody);
+      if (arr.length() == 0) { 
+        isForked = false;
+      } else {
+        isForked = true;
+        repoLink = arr.getJSONObject(0).getString("http_url_to_repo");
+      }
+    }
+    
+    model.addAttribute("isForked", isForked);
+    model.addAttribute("repoLink", repoLink);
     model.addAttribute("exercise", e);
 
     URL url = e.getReadmeUrl();

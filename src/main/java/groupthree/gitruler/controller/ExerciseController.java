@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.security.Principal;
 
 import org.json.JSONArray;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
 @Controller
@@ -94,6 +96,35 @@ public class ExerciseController {
 
     return "exercise";
   }
+  
+  /**
+   * Handles the route for POST request of each singular exercise.
+   * Forks the exercise repository for the user and redirects back to 
+   * exercise page.
+   */
+  @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+  public String start(@PathVariable int id, Principal principal) 
+      throws UnsupportedEncodingException, URISyntaxException {
+    
+    OAuth2AuthenticationToken authTokenObj = (OAuth2AuthenticationToken) principal;
+    String userId = authTokenObj.getPrincipal().getAttributes().get("id").toString();
+    
+    User user = userRepo.findById(Integer.parseInt(userId.toString()));
+    String decryptedToken = user.decryptToken(user.getToken(), encryptionPass);
+    
+    RestTemplate oauth2RestTemplate = new RestTemplate();
+    HttpHeaders headers = new HttpHeaders();
+    headers.set("Authorization", "Bearer " + decryptedToken);
+    
+    Exercise e = exRepo.findById(id);
+    String repoName = e.getRepository().replaceAll(".+(?<=com\\/)", "");
+    
+    String forkUrl = "https://gitlab.com/api/v4/projects/{project}/fork";
+    forkUrl = forkUrl.replace("{project}", URLEncoder.encode(repoName, "UTF-8"));
+    URI uri = new URI(forkUrl);
+    
+    oauth2RestTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(headers), String.class);
 
-
+    return "redirect:/exercise/" + id;
+  }
 }

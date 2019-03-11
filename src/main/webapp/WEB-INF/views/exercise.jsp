@@ -4,10 +4,10 @@
 
 <head>
     <title>GitRuler - Exercise - <c:out value="${exercise.id}"/></title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/custom.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css"/>
@@ -45,11 +45,6 @@
             <!-- exercise title -->
             <h1 class="mb-2"><c:out value="${exercise.name}"/></h1>
             <!-- end exercise title -->
-            <!-- start_button -->
-            <a href="<c:out value="${exercise.repository}"/>/forks/new"
-               class="btn btn-outline-dark" role="button" aria-pressed="true"
-               target="_blank" id="start_btn">START</a>
-            <!-- end start_button -->
         </div>
     </div>
 </section>
@@ -66,18 +61,30 @@
 
 <!--bottom-box-->
 <section class="bottom-box">
-    <div class="tab-content" id="myTabContent">
+    <div class="tab-content">
         <div class="tab-pane fade show active" id="instructions" role="tabpanel" aria-labelledby="instructions-tab">
             <!--Instructions-->
             <div class="container">
                 <div class="row">
+                    <!-- markdown -->
                     <div class="col-12 readme">
-                        <!-- markdown -->
                         <article class="markdown-body">
+
+                            <!-- buttons box -->
+                            <div class="buttons_box">
+                                <div class="card">
+                                    <span class="h5">Get Started</span>
+                                    <span class="text-muted">Click the start button to begin the exercise</span>
+                                    <button class="btn bg-info w-100 mt-2" type="button">Start</button>
+                                </div>
+                            </div>
+                            <!-- end buttons box -->
+
                             ${instruction}
                         </article>
-                        <!-- end markdown -->
                     </div>
+                    <!-- end markdown -->
+
                 </div>
             </div>
             <!--end Instructions-->
@@ -87,13 +94,48 @@
 <!--bottom-box-->
 
 <!-- end body  -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js"
-        integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP"
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+<script>
+    $( document ).ready(function() {
+        $('#copy').tooltip({
+            trigger: 'click',
+            placement: 'top'
+        });
+
+        function setTooltip(btn, message) {
+            $(btn).tooltip('hide')
+                .attr('data-original-title', message)
+                .tooltip('show');
+        }
+
+        function hideTooltip(btn) {
+            setTimeout(function() {
+                $(btn).tooltip('hide');
+            }, 1000);
+        }
+
+        var clipboard = new Clipboard('#copy');
+
+        clipboard.on('success', function(e) {
+            setTooltip(e.trigger, 'Copied!');
+            hideTooltip(e.trigger);
+        });
+
+        clipboard.on('error', function(e) {
+            setTooltip(e.trigger, 'Failed!');
+            hideTooltip(e.trigger);
+        });
+    });
+</script>
 </body>
 
 </html>

@@ -95,7 +95,17 @@ li.nav-item a.active {
     padding: 2%;
 }
 
-/* forking button */
-#start_btn{
-    padding: 3% 25%;
+/* exercise buttons box */
+.buttons_box{
+    float: right;
+    max-width: 50%;
+    border-left: 50px solid #FFF;
+    border-bottom: 50px solid #FFF;
+}
+.card{
+    padding: 5%;
+    border: 5px solid #F0F0F0;
+}
+.card button{
+    color: #FFF;
 }

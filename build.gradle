@@ -90,6 +90,9 @@ dependencies {
   
   // Encryption
   compile group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '2.1.0'
+  
+  // JSON
+  compile group: 'org.json', name: 'json', version: '20180813'
 }
 
 jacocoTestCoverageVerification {

@@ -44,12 +44,20 @@ public class User {
     this.token = token;
   }
   
+  /**
+   * Method decrypts given token using the given password,
+   * returning an unencrypted plain string.
+   */
   public String decryptToken(String token, String password) {
     StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
     textEncryptor.setPassword(password);
     return textEncryptor.decrypt(token);
   }
   
+  /**
+   * Method encrypts given token using the given password,
+   * returning an encrypted string.
+   */
   public String encryptToken(String token, String password) {
     StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
     textEncryptor.setPassword(password);

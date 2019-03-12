@@ -69,47 +69,50 @@
                     <!-- markdown -->
                     <div class="col-12 readme">
                         <article class="markdown-body">
-
                             <!-- buttons box -->
-                            <div class="buttons_box">                           
+                            <div class="buttons_box"> 
+                                <c:if test="${isSuccessful eq true}">
+                                  <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                      <strong>Exercise started! Follow the instructions below.</strong>
+                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                      </button>
+                                  </div>                                
+                                </c:if>                      
                                 <div class="card">
-                                
-                                <c:if test="${isForked == false}">
-                                    <span class="h5">Get Started</span>
-                                    <span class="text-muted">Click the start button to begin the exercise</span>
-                                    <form action="/exercise/${exercise.id}" method="POST">
-                                      <button class="btn bg-info w-100 mt-2" type="submit">Start</button>
-                                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                    </form>
-                                </c:if>
-                                <c:if test="${isForked}">
-                                    <ol>
-                                        <li>
-                                            <span class="h6">Clone repository</span><br>
-                                            <span class="text-muted">Clone repository and solve the exercise on your local machine</span>
-
-                                            <div class="input-group mb-3">
-                                                <input type="text" class="form-control" id="copy_val" readonly
-                                                       value="${repoLink}">
-                                                <div class="input-group-append">
-                                                    <button class="btn bg-secondary copy" type="button"
-                                                            data-clipboard-target="#copy_val"><i
-                                                            class="fas fa-copy"></i></button>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ol>
-                                </c:if>
-                                    
+	                                <c:if test="${isForked == false}">
+	                                    <span class="h5">Get Started</span>
+	                                    <span class="text-muted">Click the start button to begin the exercise.</span>
+	                                    <form action="/exercise/${exercise.id}" method="POST">
+	                                      <button class="btn bg-info w-100 mt-2" type="submit">Start</button>
+	                                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+	                                    </form>
+	                                </c:if>
+	                                <c:if test="${isForked}">
+	                                    <ol>
+	                                        <li>
+	                                            <span class="h6">Clone repository</span><br>
+	                                            <span class="text-muted">Clone repository and solve the exercise on your local machine.</span>
+	
+	                                            <div class="input-group mb-3 mt-2">
+	                                                <input type="text" class="form-control" id="copy_val" readonly
+	                                                       value="${repoLink}">
+	                                                <div class="input-group-append">
+	                                                    <button class="btn bg-secondary copy" type="button"
+	                                                            data-clipboard-target="#copy_val"><i
+	                                                            class="fas fa-copy"></i></button>
+	                                                </div>
+	                                            </div>
+	                                        </li>
+	                                    </ol>
+	                                </c:if>       
                                 </div>
                             </div>
                             <!-- end buttons box -->
-
                             ${instruction}
                         </article>
                     </div>
                     <!-- end markdown -->
-
                 </div>
             </div>
             <!--end Instructions-->

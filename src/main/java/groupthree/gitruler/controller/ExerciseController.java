@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/exercise")
@@ -109,8 +110,9 @@ public class ExerciseController {
    * exercise page.
    */
   @RequestMapping(value = "/{id}", method = RequestMethod.POST)
-  public String start(@PathVariable int id, Principal principal) 
-      throws UnsupportedEncodingException, URISyntaxException {
+  public String start(@PathVariable int id, 
+      Principal principal, RedirectAttributes redirectAttributes) 
+          throws UnsupportedEncodingException, URISyntaxException {
     
     OAuth2AuthenticationToken authTokenObj = (OAuth2AuthenticationToken) principal;
     String userId = authTokenObj.getPrincipal().getAttributes().get("id").toString();
@@ -130,7 +132,8 @@ public class ExerciseController {
     URI uri = new URI(forkUrl);
     
     oauth2RestTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(headers), String.class);
-
+    redirectAttributes.addFlashAttribute("isSuccessful", "true");
+    
     return "redirect:/exercise/" + id;
   }
 }

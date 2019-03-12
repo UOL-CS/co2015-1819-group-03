@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
-import org.jasypt.util.text.StrongTextEncryptor;
+import org.jasypt.util.text.BasicTextEncryptor;
 
 @Entity(name = "user")
 public class User {
@@ -49,7 +49,7 @@ public class User {
    * returning an unencrypted plain string.
    */
   public String decryptToken(String token, String password) {
-    StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
+    BasicTextEncryptor textEncryptor = new BasicTextEncryptor();
     textEncryptor.setPassword(password);
     return textEncryptor.decrypt(token);
   }
@@ -59,7 +59,7 @@ public class User {
    * returning an encrypted string.
    */
   public String encryptToken(String token, String password) {
-    StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
+    BasicTextEncryptor textEncryptor = new BasicTextEncryptor();
     textEncryptor.setPassword(password);
     return textEncryptor.encrypt(token);
   }

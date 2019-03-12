@@ -1,10 +1,13 @@
 package groupthree.gitruler;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import groupthree.gitruler.domain.Exercise;
+import groupthree.gitruler.domain.User;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import org.junit.Test;
@@ -128,6 +131,115 @@ public class GitrulerApplicationTests {
   public void testGetReadmeContentsUrlNull() throws MalformedURLException {
     Exercise ex = new Exercise();
     ex.getReadmeContents(new URL(null));
+  }
+  
+  @Test
+  public void testEncryptedTokenDifferentFromGivenToken() {
+    String mockToken = "de6780bc506a0446309bd9362820ba8aed28aa506c71eedbe1c5c4f9dd350e54";
+    String password = "password";
+    User user = new User();
+    String encryptedToken = user.encryptToken(mockToken, password);
+    assertNotEquals(mockToken, encryptedToken);
+  }
+  
+  @Test
+  public void testDecryptEncryptedToken() {
+    String mockToken = "de6780bc506a0446309bd9362820ba8aed28aa506c71eedbe1c5c4f9dd350e54";
+    String password = "password";
+    User user = new User();
+    String encryptedToken = user.encryptToken(mockToken, password);
+    String decryptedToken = user.decryptToken(encryptedToken, password);
+    assertEquals(mockToken, decryptedToken);
+  }
+  
+  @Test
+  public void testEncryptEmptyTokenShouldReturnNonEmptyEncryptedToken() {
+    String mockToken = "";
+    String password = "password";
+    User user = new User();
+    String encryptedToken = user.encryptToken(mockToken, password);
+    assertNotEquals("", encryptedToken);
+  }
+  
+  @Test
+  public void testDecryptEncryptedEmptyTokenShouldReturnEmptyString() {
+    String mockToken = "";
+    String password = "password";
+    User user = new User();
+    String encryptedToken = user.encryptToken(mockToken, password);
+    String decryptedToken = user.decryptToken(encryptedToken, password);
+    assertEquals("", decryptedToken);
+  }
+  
+  @Test
+  public void testDecryptNullTokenShouldReturnNull() {
+    String mockToken = null;
+    String password = "password";
+    User user = new User();
+    String encryptedToken = user.encryptToken(mockToken, password);
+    String decryptedToken = user.decryptToken(encryptedToken, password);
+    assertEquals(null, decryptedToken);
+  }
+  
+  @Test(expected = IllegalArgumentException.class)
+  public void testDecryptUsingEmptyPassword() {
+    String mockToken = "de6780bc506a0446309bd9362820ba8aed28aa506c71eedbe1c5c4f9dd350e54";
+    String password = "";
+    User user = new User();
+    String encryptedToken = user.encryptToken(mockToken, password);
+    user.decryptToken(encryptedToken, password);
+  }
+  
+  @Test(expected = IllegalArgumentException.class)
+  public void testDecryptUsingNullPassword() {
+    String mockToken = "de6780bc506a0446309bd9362820ba8aed28aa506c71eedbe1c5c4f9dd350e54";
+    String password = null;
+    User user = new User();
+    String encryptedToken = user.encryptToken(mockToken, password);
+    user.decryptToken(encryptedToken, password);
+  }
+  
+  @Test
+  public void testChainDecryptEncryptShouldReturnSameToken() {
+    String mockToken = "de6780bc506a0446309bd9362820ba8aed28aa506c71eedbe1c5c4f9dd350e54";
+    String password = "password";
+    User user = new User();
+    String encryptedToken = user.encryptToken(mockToken, password);
+    String decryptedToken = user.decryptToken(encryptedToken, password);
+    encryptedToken = user.encryptToken(decryptedToken, password);
+    decryptedToken = user.decryptToken(encryptedToken, password);
+    assertEquals(mockToken, decryptedToken);
+  }
+  
+  @Test
+  public void testDecryptTwiceEncryptedToken() {
+    String mockToken = "de6780bc506a0446309bd9362820ba8aed28aa506c71eedbe1c5c4f9dd350e54";
+    String password = "password";
+    User user = new User();
+    String encryptedToken = user.encryptToken(mockToken, password);
+    encryptedToken = user.encryptToken(encryptedToken, password);
+    String decryptedToken = user.decryptToken(encryptedToken, password);
+    decryptedToken = user.decryptToken(decryptedToken, password);
+    assertEquals(mockToken, decryptedToken);
+  }
+  
+  @Test(expected = org.jasypt.exceptions.EncryptionOperationNotPossibleException.class)
+  public void testDecryptNonEncryptedToken() {
+    String mockToken = "de6780bc506a0446309bd9362820ba8aed28aa506c71eedbe1c5c4f9dd350e54";
+    String password = "password";
+    User user = new User();
+    user.decryptToken(mockToken, password);
+  }
+  
+  @Test(expected = org.jasypt.exceptions.EncryptionOperationNotPossibleException.class)
+  public void testDecryptEncryptWithDifferentPassword() {
+    String mockToken = "de6780bc506a0446309bd9362820ba8aed28aa506c71eedbe1c5c4f9dd350e54";
+    String password = "password";
+    User user = new User();
+    String ecryptedToken = user.encryptToken(mockToken, password);
+    password = "new-password";
+    String decryptedToken = user.decryptToken(ecryptedToken, password);
+    assertNotEquals(mockToken, decryptedToken);
   }
 
 }

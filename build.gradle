@@ -133,6 +133,17 @@ jacocoTestReport {
 check.dependsOn jacocoTestCoverageVerification
 test.finalizedBy(project.tasks.jacocoTestReport)
 
+task checkWithoutJacoco {
+  dependsOn check
+}
+
+gradle.taskGraph.whenReady { graph ->
+    if (graph.hasTask(checkWithoutJacoco)) {
+        jacocoTestCoverageVerification.enabled = false
+        jacocoTestReport.enabled = false
+    }
+}
+
 findbugs{ findbugsTest.enabled=false }
 
 tasks.withType(FindBugs) {

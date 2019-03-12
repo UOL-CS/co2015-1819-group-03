@@ -9,4 +9,4 @@ before_script:
   - cat src/main/resources/application.yml
 
 script:
-  - gradle check -i
+  - if [[ $TRAVIS_BRANCH =~ ^(feature|bug).*$ ]]; then gradle checkWithoutJacoco -i; else gradle check -i; fi

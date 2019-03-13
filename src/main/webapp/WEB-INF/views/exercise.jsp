@@ -73,7 +73,15 @@
                             <div class="buttons_box">
                                 <c:if test="${isSuccessful eq true}">
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                        <strong>Exercise started! Follow the instructions below.</strong>
+                                        <strong>Exercise started!</strong> Follow the instructions below.
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                </c:if>
+                                <c:if test="${isSuccessful eq false}">
+                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        <strong>Exercise already started!</strong> Follow the instructions below.
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>

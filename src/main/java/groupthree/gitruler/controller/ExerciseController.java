@@ -26,6 +26,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -131,8 +132,13 @@ public class ExerciseController {
     forkUrl = forkUrl.replace("{project}", URLEncoder.encode(repoName, "UTF-8"));
     URI uri = new URI(forkUrl);
     
-    oauth2RestTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(headers), String.class);
-    redirectAttributes.addFlashAttribute("isSuccessful", "true");
+    try {
+      oauth2RestTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(headers), String.class);
+      redirectAttributes.addFlashAttribute("isSuccessful", "true");
+    } catch (HttpClientErrorException exception) {
+      exception.printStackTrace();
+      redirectAttributes.addFlashAttribute("isSuccessful", "false");
+    }
     
     return "redirect:/exercise/" + id;
   }

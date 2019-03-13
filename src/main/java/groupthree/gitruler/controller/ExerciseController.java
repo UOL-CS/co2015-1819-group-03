@@ -43,6 +43,12 @@ public class ExerciseController {
   @Autowired
   private ExerciseRepository exRepo;
 
+  @Autowired
+  pricate GithubInteractor gh;
+
+  @Autowired
+  private OAuthService oaService;
+
   /**
    * Handles the route for each singular exercise page. The id is retrieved from
    * the URL and is used to query the exercise repository.
@@ -113,32 +119,19 @@ public class ExerciseController {
   @RequestMapping(value = "/{id}", method = RequestMethod.POST)
   public String start(@PathVariable int id, 
       Principal principal, RedirectAttributes redirectAttributes) 
-          throws UnsupportedEncodingException, URISyntaxException {
+          throws UnsupportedEncodingException, URISyntaxException {    
     
-    OAuth2AuthenticationToken authTokenObj = (OAuth2AuthenticationToken) principal;
-    String userId = authTokenObj.getPrincipal().getAttributes().get("id").toString();
-    
-    User user = userRepo.findById(Integer.parseInt(userId.toString()));
-    String decryptedToken = user.decryptToken(user.getToken(), encryptionPass);
-    
-    RestTemplate oauth2RestTemplate = new RestTemplate();
-    HttpHeaders headers = new HttpHeaders();
-    headers.set("Authorization", "Bearer " + decryptedToken);
-    
+    String decrytpedToken = oaService.getTokenFromUser(principal);
+
     Exercise e = exRepo.findById(id);
     String repoName = e.getRepository().replaceAll(".+(?<=com\\/)", "");
     
+    // The creation of the URL should probably go in a separate method also
     String forkUrl = "https://gitlab.com/api/v4/projects/{project}/fork";
     forkUrl = forkUrl.replace("{project}", URLEncoder.encode(repoName, "UTF-8"));
-    URI uri = new URI(forkUrl);
     
-    try {
-      oauth2RestTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(headers), String.class);
-      redirectAttributes.addFlashAttribute("isSuccessful", "true");
-    } catch (HttpClientErrorException exception) {
-      exception.printStackTrace();
-      redirectAttributes.addFlashAttribute("isSuccessful", "false");
-    }
+    boolean success =  gh.forkRepository(forkUrl, decrytpedToken);
+    redirectAttributes.addFlashAttribute("isSuccessful", success);
     
     return "redirect:/exercise/" + id;
   }

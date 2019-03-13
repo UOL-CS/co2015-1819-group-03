@@ -101,6 +101,7 @@ jacocoTestCoverageVerification {
       fileTree(dir: it, exclude: [
         '**/*GitrulerApplication**',
         '**/groupthree/gitruler/security/**',
+        '**/groupthree/gitruler/controller/*ExerciseController**',
         '**/groupthree/gitruler/domain/**'
       ])
     })
@@ -124,6 +125,7 @@ jacocoTestReport {
       fileTree(dir: it, exclude: [
         '**/*GitrulerApplication**',
         '**/groupthree/gitruler/security/**',
+        '**/groupthree/gitruler/controller/*ExerciseController**',
         '**/groupthree/gitruler/domain/**'
       ])
     })

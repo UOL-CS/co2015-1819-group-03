@@ -4,7 +4,7 @@
 
 You will need the following to run this application:
 1. Server running MySQL version 14.14
-1. Java version 1.8
+1. Server running Java version 1.8
 
 ## Installation
 
@@ -16,7 +16,7 @@ mysql -u USERNAME -h HOSTNAME -P PORT -p -e "create database groupthree"
 
 ## Configure GitLab OAuth2
 
-Follow the instructions provided on this [website](https://docs.gitlab.com/ee/integration/oauth_provider.html). Set the callback URL to `http://{DOMAIN_NAME}/login/oauth2/code/gitlab`, replacing {DOMAIN_NAME} with the appropriate domain name.
+Follow the instructions provided on this [website](https://docs.gitlab.com/ee/integration/oauth_provider.html). Set the callback URL to `http://{DOMAIN_NAME}/login/oauth2/code/gitlab`, replacing {DOMAIN_NAME} with the appropriate domain name. Tick the `api` scope box.
 
 
 ## Configure application.yml
@@ -30,8 +30,8 @@ Create a new file `application.yml` with the following contents, replacing {} wi
 `{PASSWORD}` = Password for the sql server  
 `{CLIENT_ID}` = GitLab Application Id  
 `{CLIENT_SECRET}` = GitLab Secret  
-`{PORT_NUMBER}` = Port you would like the application to run on  
-
+`{PORT_NUMBER}` = Port you would like the application to run on (Note: Make sure this is different to the port you used for the MySQL database)  
+`{ENCRYPTION_PASSWORD}` = The password used to encrypt the user access tokens with
 
 ```yaml
 spring:
@@ -61,7 +61,7 @@ spring:
             authorization-grant-type: authorization_code
             # Below property should not be changed
             redirect-uri-template: '{baseUrl}/login/oauth2/code/{registrationId}'
-            scope: openid
+            scope: api
             clientName: GitLab
         provider:
           gitlab:
@@ -69,12 +69,16 @@ spring:
             token-uri: https://gitlab.com/oauth/token
             user-info-uri: https://gitlab.com/api/v4/user
             jwk-set-uri: https://gitlab.com/oauth/discovery/keys
+            user-name-attribute: name
 server:
   port: {PORT_NUMBER}
+jasypt:
+  encryptor:
+    password: {ENCRYPTION_PASSWORD}
 ```
 
 ## Run the application
 
 ```bash
-java -jar /path/to/co2015-1819-group-03-0.0.1-SNAPSHOT.war --spring.config.location=file:relative/path/to/application.yml
+java -jar /path/to/co2015-1819-group-03-0.0.2-SNAPSHOT.war --spring.config.location=file:relative/path/to/application.yml
 ```

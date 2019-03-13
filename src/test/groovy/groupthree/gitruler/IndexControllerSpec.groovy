@@ -19,7 +19,9 @@ import static org.hamcrest.Matchers.*;
 import spock.lang.Specification
 import groupthree.gitruler.controller.IndexController
 import groupthree.gitruler.domain.Exercise
+import groupthree.gitruler.domain.User
 import groupthree.gitruler.repository.ExerciseRepository
+import groupthree.gitruler.repository.UserRepository
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
@@ -38,6 +40,9 @@ class IndexControllerSpec extends Specification{
 
   @Autowired
   private ExerciseRepository exRepo;
+  
+  @Autowired
+  private UserRepository userRepo;
   
   private MockMvc mockMvc;
   private ResultActions result;
@@ -358,6 +363,162 @@ class IndexControllerSpec extends Specification{
       then: "throw an exception"
             thrown(DataIntegrityViolationException)
          
+  }
+  def "user is saved to user repository"() {
+    
+    given: "a single user in the repository"
+           userRepo.deleteAll()
+           String userToken = "de6780bc506a0446309bd9362820ba8aed28aa506c71eedbe1c5c4f9dd350e54"
+           String encryptionPass = "password";
+           User user = new User()
+           user.setId(1)
+           String encryptedToken = user.encryptToken(userToken, encryptionPass)
+           user.setToken(encryptedToken)
+    when: "saving the user into the repository"
+          userRepo.save(user)
+    then: "repository should have one user"
+          assertThat(userRepo.findAll(), hasSize(1))
+  }
+    
+  def "user id is empty"() {
+    
+    given: "a single user in the repository"
+           userRepo.deleteAll()
+           String userToken = "de6780bc506a0446309bd9362820ba8aed28aa506c71eedbe1c5c4f9dd350e54"
+           String encryptionPass = "password"
+           User user = new User()
+           String encryptedToken = user.encryptToken(userToken, encryptionPass)
+           user.setToken(encryptedToken)
+    when: "saving the user into the repository"
+           userRepo.save(user)
+    then: "repository should have one user"
+           assertThat(userRepo.findAll(), hasSize(1))
+  }
+    
+  def "user token is null"() {
+    
+    given: "a single user in the repository"
+           userRepo.deleteAll()
+           User user = new User()
+           user.setId(1)
+           user.setToken(null)
+    when: "saving the user into the repository"
+          userRepo.save(user)
+    then: "throw an exception"
+          thrown(DataIntegrityViolationException)
+  }
+    
+  def "user token is empty"() {
+    
+    given: "a single user in the repository"
+           userRepo.deleteAll()
+           User user = new User()
+           user.setId(1)
+           user.setToken()
+    when: "saving the user into the repository"
+          userRepo.save(user)
+    then: "throw an exception"
+          thrown(DataIntegrityViolationException)
+  }
+    
+  def "user id and token is null"() {
+    
+    given: "a single user in the repository"
+           userRepo.deleteAll()
+           User user = new User()
+           user.setToken(null)
+    when: "saving the user into the repository"
+          userRepo.save(user)
+    then: "throw an exception"
+          thrown(DataIntegrityViolationException)
+    
+  }
+    
+  def "user id and token is empty"() {
+    given: "a single user in the repository"
+           userRepo.deleteAll()
+           User user = new User()
+           user.setToken()
+    when: "saving the user into the repository"
+          userRepo.save(user)
+    then: "throw an exception"
+          thrown(DataIntegrityViolationException)
+  }
+    
+  def "save two users with same id"() {
+    
+    given: "two users with same id in the repository"
+           userRepo.deleteAll()
+           String userToken = "de6780bc506a0446309bd9362820ba8aed28aa506c71eedbe1c5c4f9dd350e54"
+           String user2Token = "de6780bc506a0446309bd9362820ba8aed28aa506c71eedbe1c5c4f9dd350e56"
+           String encryptionPass = "password"
+           
+           User user = new User()
+           user.setId(1)
+           String encryptedToken = user.encryptToken(userToken, encryptionPass)
+           user.setToken(encryptedToken)
+           
+           User user2 = new User()
+           user2.setId(1)
+           String encryptedToken2 = user.encryptToken(user2Token, encryptionPass)
+           user.setToken(encryptedToken2)
+    when: "saving the user into the repository"
+          userRepo.save(user)
+          userRepo.save(user2)
+    then: "throw an exception"
+          thrown(DataIntegrityViolationException)
+  }
+    
+  def "save two users with the same token"() {
+    
+    given: "two users with same token in the repository"
+           userRepo.deleteAll()
+           String userToken = "de6780bc506a0446309bd9362820ba8aed28aa506c71eedbe1c5c4f9dd350e54"
+           String encryptionPass = "password"
+           
+           User user = new User()
+           String encryptedToken = user.encryptToken(userToken, encryptionPass)
+           user.setToken(encryptedToken)
+           
+           User user2 = new User()
+           String encryptedToken2 = user.encryptToken(userToken, encryptionPass)
+           user.setToken(encryptedToken2)
+    when: "saving the user into the repository"
+          userRepo.save(user)
+          userRepo.save(user2)
+    then: "throw an exception"
+          thrown(DataIntegrityViolationException)
+  }
+  
+      
+  def "save two duplicate users"() {
+    
+    given: "two identical users in the repository"
+           userRepo.deleteAll()
+           String userToken = "de6780bc506a0446309bd9362820ba8aed28aa506c71eedbe1c5c4f9dd350e54"
+           String encryptionPass = "password"
+           
+           User user = new User()
+           String encryptedToken = user.encryptToken(userToken, encryptionPass);
+           user.setToken(encryptedToken)
+           
+           User user2 = user
+    when: "saving the user into the repository"
+          userRepo.save(user)
+          userRepo.save(user2)
+    then: "throw an exception"
+          thrown(DataIntegrityViolationException)
+  }
+    
+  def "save user with no set id or token"() {
+    
+    given: "a single user in the repository"
+           userRepo.deleteAll()
+           User user = new User()
+    when: "saving the user into the repository"
+          userRepo.save(user)
+    then: "throw an exception"
+          thrown(DataIntegrityViolationException)
   }
 
  }

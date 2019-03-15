@@ -17,7 +17,7 @@
 <!-- header -->
 
 <nav class="navbar sticky-top navbar-dark navbar-expand-md" id="navbar">
-    <a class="navbar-brand" href="#">GitRuler</a>
+    <a class="navbar-brand" href="/">GitRuler</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

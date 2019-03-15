@@ -106,7 +106,7 @@
                                                     <input type="text" class="form-control" id="copy_val" readonly
                                                            value="${repoLink}">
                                                     <div class="input-group-append">
-                                                        <button class="btn bg-secondary copy" type="button"
+                                                        <button class="btn bg-secondary copy" id="copy" type="button"
                                                                 data-clipboard-target="#copy_val"><i
                                                                 class="fas fa-copy"></i></button>
                                                     </div>

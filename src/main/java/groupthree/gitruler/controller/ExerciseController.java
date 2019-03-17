@@ -30,13 +30,14 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 @Controller
 @RequestMapping("/exercise")
 public class ExerciseController {
-  
+
   @Autowired
   private UserRepository userRepo;
-  
+
   @Value("${jasypt.encryptor.password}")
   private String encryptionPass;
 
@@ -48,31 +49,31 @@ public class ExerciseController {
    * the URL and is used to query the exercise repository.
    */
   @RequestMapping("/{id}")
-  public String exercise(@PathVariable int id, Model model, Principal principal) 
-      throws UnsupportedEncodingException, URISyntaxException, JSONException {
-    
+  public String exercise(@PathVariable int id, Model model, Principal principal)
+          throws UnsupportedEncodingException, URISyntaxException, JSONException {
+
     try {
       OAuth2AuthenticationToken authTokenObj = (OAuth2AuthenticationToken) principal;
       String userId = authTokenObj.getPrincipal().getAttributes().get("id").toString();
-      
+
       User user = userRepo.findById(Integer.parseInt(userId.toString()));
       String decryptedToken = user.decryptToken(user.getToken(), encryptionPass);
-      
+
       RestTemplate oauth2RestTemplate = new RestTemplate();
       HttpHeaders headers = new HttpHeaders();
       headers.set("Authorization", "Bearer " + decryptedToken);
-         
+
       Exercise e = exRepo.findById(id);
-      
+
       int slashIndex = e.getRepository().lastIndexOf('/');
       String repo = null;
       if (slashIndex + 1 < e.getRepository().length()) {
         repo = e.getRepository().substring(slashIndex + 1);
       }
-          
+
       String searchRepoUrl = "https://gitlab.com/api/v4/users/" + userId + "/projects?search=" + repo;
       URI uri = new URI(searchRepoUrl);
-      
+
       ResponseEntity<String> result = null;
       HttpEntity<Object> entity = new HttpEntity<>(headers);
       result = oauth2RestTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
@@ -81,21 +82,26 @@ public class ExerciseController {
       if (result != null) {
         String resultBody = result.getBody();
         JSONArray arr = new JSONArray(resultBody);
-        if (arr.length() == 0) { 
+        if (arr.length() == 0) {
           isForked = false;
         } else {
           isForked = true;
           repoLink = arr.getJSONObject(0).getString("http_url_to_repo");
         }
       }
-      
+
       model.addAttribute("isForked", isForked);
       model.addAttribute("repoLink", repoLink);
     } catch (NullPointerException exception) {
       exception.printStackTrace();
     }
-    
+
     Exercise e = exRepo.findById(id);
+
+    if (e == null) {
+      return "error";
+    }
+
     model.addAttribute("exercise", e);
 
     URL url = e.getReadmeUrl();
@@ -104,34 +110,35 @@ public class ExerciseController {
 
     return "exercise";
   }
-  
+
   /**
    * Handles the route for POST request of each singular exercise.
-   * Forks the exercise repository for the user and redirects back to 
+   * Forks the exercise repository for the user and redirects back to
    * exercise page.
    */
   @RequestMapping(value = "/{id}", method = RequestMethod.POST)
-  public String start(@PathVariable int id, 
-      Principal principal, RedirectAttributes redirectAttributes) 
+  public String start(@PathVariable int id,
+                      Principal principal, RedirectAttributes redirectAttributes)
           throws UnsupportedEncodingException, URISyntaxException {
-    
+
     OAuth2AuthenticationToken authTokenObj = (OAuth2AuthenticationToken) principal;
     String userId = authTokenObj.getPrincipal().getAttributes().get("id").toString();
-    
+
     User user = userRepo.findById(Integer.parseInt(userId.toString()));
     String decryptedToken = user.decryptToken(user.getToken(), encryptionPass);
-    
+
     RestTemplate oauth2RestTemplate = new RestTemplate();
     HttpHeaders headers = new HttpHeaders();
     headers.set("Authorization", "Bearer " + decryptedToken);
-    
+
     Exercise e = exRepo.findById(id);
+
     String repoName = e.getRepository().replaceAll(".+(?<=com\\/)", "");
-    
+
     String forkUrl = "https://gitlab.com/api/v4/projects/{project}/fork";
     forkUrl = forkUrl.replace("{project}", URLEncoder.encode(repoName, "UTF-8"));
     URI uri = new URI(forkUrl);
-    
+
     try {
       oauth2RestTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(headers), String.class);
       redirectAttributes.addFlashAttribute("isSuccessful", "true");
@@ -139,7 +146,7 @@ public class ExerciseController {
       exception.printStackTrace();
       redirectAttributes.addFlashAttribute("isSuccessful", "false");
     }
-    
+
     return "redirect:/exercise/" + id;
   }
 }

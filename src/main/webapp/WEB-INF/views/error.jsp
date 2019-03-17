@@ -30,6 +30,30 @@
 
 <!-- end header -->
 
+<!-- body -->
+
+<!--top-box-->
+<section class="top-box text-dark"
+         style="padding-left: 0;height: 92%;background:linear-gradient(to right, #ebfaf8 25%,rgba(255,255,255,0) 100%), url(https://www.tinygraphs.com/labs/isogrids/banner/gradient?bg=cbdee7&fg=96bdcf&h=300&xt=35&w=3000&gx1=0&gy1=350&gy2=3000&gx2=0)">
+    <div class="align-self-center">
+        <!-- error box -->
+
+        <section class="container">
+            <div class="col-12 readme" style="padding: 15%; margin-top: 10%;">
+                <h1 class="mb-3">Whoops! Something went wrong.</h1>
+                <h4>We can't find the page you are looking for.</h4>
+
+
+            </div>
+        </section>
+
+        <!-- end error box -->
+    </div>
+</section>
+<!-- end top-box-->
+
+<!-- end body -->
+
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

@@ -112,6 +112,15 @@
                                                     </div>
                                                 </div>
                                             </li>
+                                            <li>
+                                                <span class="h6">Submit solution</span><br>
+                                                <span class="text-muted">Click the submit button to submit the solution.</span>
+                                                
+                                                <form action="/exercise/submit/${exercise.id}" method="POST">
+		                                                <button class="btn bg-info w-100 mt-2" type="submit">Submit</button>
+		                                                <input type="hidden" name="link" value="${repoLink}" />
+                                                </form>
+                                            </li>
                                         </ol>
                                     </c:if>
                                 </div>

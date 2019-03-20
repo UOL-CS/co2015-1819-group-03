@@ -119,6 +119,7 @@
                                                 <form action="/exercise/submit/${exercise.id}" method="POST">
 		                                                <button class="btn bg-info w-100 mt-2" type="submit">Submit</button>
 		                                                <input type="hidden" name="link" value="${repoLink}" />
+		                                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                                 </form>
                                             </li>
                                         </ol>

@@ -1,8 +1,10 @@
 package groupthree.gitruler.controller;
 
 import groupthree.gitruler.domain.Exercise;
+import groupthree.gitruler.domain.JobQueue;
 import groupthree.gitruler.domain.User;
 import groupthree.gitruler.repository.ExerciseRepository;
+import groupthree.gitruler.repository.JobQueueRepository;
 import groupthree.gitruler.repository.UserRepository;
 
 import java.io.UnsupportedEncodingException;
@@ -26,6 +28,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -43,6 +46,9 @@ public class ExerciseController {
 
   @Autowired
   private ExerciseRepository exRepo;
+
+  @Autowired
+  private JobQueueRepository jqRepo;
 
   /**
    * Handles the route for each singular exercise page. The id is retrieved from
@@ -146,6 +152,26 @@ public class ExerciseController {
       exception.printStackTrace();
       redirectAttributes.addFlashAttribute("isSuccessful", "false");
     }
+
+    return "redirect:/exercise/" + id;
+  }
+
+  /**
+   * Handles the route for the POST request of the submission button.
+   * The exercise solution is added to the job queue where it awaits marking.
+   */
+  @RequestMapping(value = "/submit/{id}", method = RequestMethod.POST)
+  public String submit(@PathVariable int id,
+                       @RequestParam("link") String link, Principal principal) {
+
+    OAuth2AuthenticationToken authTokenObj = (OAuth2AuthenticationToken) principal;
+    String userId = authTokenObj.getPrincipal().getAttributes().get("id").toString();
+
+    JobQueue job = new JobQueue();
+    job.setLink(link);
+    job.setUserId(Integer.parseInt(userId));
+    job.setExerciseId(id);
+    jqRepo.save(job);
 
     return "redirect:/exercise/" + id;
   }

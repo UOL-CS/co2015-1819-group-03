@@ -163,15 +163,19 @@ public class ExerciseController {
   @RequestMapping(value = "/submit/{id}", method = RequestMethod.POST)
   public String submit(@PathVariable int id, RedirectAttributes redirectAttributes,
                        @RequestParam("link") String link, Principal principal) {
-    
-    OAuth2AuthenticationToken authTokenObj = (OAuth2AuthenticationToken) principal;
-    String userId = authTokenObj.getPrincipal().getAttributes().get("id").toString();
-
-    JobQueue job = new JobQueue();
-    job.setLink(link);
-    job.setUserId(Integer.parseInt(userId));
-    job.setExerciseId(id);
-    jqRepo.save(job);
+    try {
+      OAuth2AuthenticationToken authTokenObj = (OAuth2AuthenticationToken) principal;
+      String userId = authTokenObj.getPrincipal().getAttributes().get("id").toString();
+  
+      JobQueue job = new JobQueue();
+      job.setLink(link);
+      job.setUserId(Integer.parseInt(userId));
+      job.setExerciseId(id);
+      jqRepo.save(job);
+    } catch (Exception e) {
+      redirectAttributes.addFlashAttribute("isSubmitSuccessful", "false");
+      return "redirect:/exercise/" + id;
+    }
     
     redirectAttributes.addFlashAttribute("isSubmitSuccessful", "true");
     return "redirect:/exercise/" + id;

@@ -161,9 +161,9 @@ public class ExerciseController {
    * The exercise solution is added to the job queue where it awaits marking.
    */
   @RequestMapping(value = "/submit/{id}", method = RequestMethod.POST)
-  public String submit(@PathVariable int id,
+  public String submit(@PathVariable int id, RedirectAttributes redirectAttributes,
                        @RequestParam("link") String link, Principal principal) {
-
+    
     OAuth2AuthenticationToken authTokenObj = (OAuth2AuthenticationToken) principal;
     String userId = authTokenObj.getPrincipal().getAttributes().get("id").toString();
 
@@ -172,7 +172,8 @@ public class ExerciseController {
     job.setUserId(Integer.parseInt(userId));
     job.setExerciseId(id);
     jqRepo.save(job);
-
+    
+    redirectAttributes.addFlashAttribute("isSubmitSuccessful", "true");
     return "redirect:/exercise/" + id;
   }
 }

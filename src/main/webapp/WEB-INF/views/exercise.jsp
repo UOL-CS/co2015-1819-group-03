@@ -79,6 +79,14 @@
                                         </button>
                                     </div>
                                 </c:if>
+                                <c:if test="${isSubmitSuccessful eq true}">
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <strong>Exercise submitted!</strong> Results will be shown in Attempts tab.
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                </c:if>
                                 <c:if test="${isSuccessful eq false}">
                                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
                                         <strong>Exercise already started!</strong> Follow the instructions below.

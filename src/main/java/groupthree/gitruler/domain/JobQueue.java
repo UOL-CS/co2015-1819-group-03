@@ -14,7 +14,7 @@ public class JobQueue {
   @Column(name = "id", unique = true, nullable = false)
   private int id;
 
-  @Column(name = "link")
+  @Column(name = "link", nullable = false)
   private String link;
 
   @Column(name = "userid")

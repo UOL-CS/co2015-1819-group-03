@@ -10,3 +10,4 @@ before_script:
 
 script:
   - if [[ $TRAVIS_BRANCH =~ ^(feature|bug).*$ ]]; then gradle checkWithoutJacoco -i; else gradle check -i; fi
+  - shellcheck server/*.sh

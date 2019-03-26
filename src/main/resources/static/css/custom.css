@@ -90,6 +90,7 @@ li.nav-item a.active {
         padding: 15px;
     }
 }
+
 .readme {
     background-color: #FFF;
     padding: 2%;
@@ -102,10 +103,12 @@ li.nav-item a.active {
     border-left: 50px solid #FFF;
     border-bottom: 50px solid #FFF;
 }
-.card{
+
+#card{
     padding: 5%;
     border: 5px solid #F0F0F0;
 }
-.card button{
+
+#card button{
     color: #FFF;
 }

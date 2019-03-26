@@ -56,14 +56,20 @@
         <a class="nav-link active" id="instructions-tab" data-toggle="tab" href="#instructions" role="tab"
            aria-controls="instructions" aria-selected="true">Instructions</a>
     </li>
+    <c:if test="${not empty attempts}">
+        <li class="nav-item">
+            <a class="nav-link" id="feedback-tab" data-toggle="tab" href="#feedback" role="tab"
+               aria-controls="feedback" aria-selected="true">Feedback</a>
+        </li>
+    </c:if>
 </ul>
 <!--end tab-->
 
 <!--bottom-box-->
 <section class="bottom-box">
     <div class="tab-content">
+        <!--Instructions-->
         <div class="tab-pane fade show active" id="instructions" role="tabpanel" aria-labelledby="instructions-tab">
-            <!--Instructions-->
             <div class="container">
                 <div class="row">
                     <!-- markdown -->
@@ -103,7 +109,7 @@
                                         </button>
                                     </div>
                                 </c:if>
-                                <div class="card">
+                                <div class="card" id="card">
                                     <c:if test="${isForked == false}">
                                         <span class="h5">Get Started</span>
                                         <span class="text-muted">Click the start button to begin the exercise.</span>
@@ -131,7 +137,7 @@
                                             <li>
                                                 <span class="h6">Submit solution</span><br>
                                                 <span class="text-muted">Click the submit button to submit the solution.</span>
-                                                
+
                                                 <form action="/exercise/submit/${exercise.id}" method="POST">
 		                                                <button class="btn bg-info w-100 mt-2" type="submit">Submit</button>
 		                                                <input type="hidden" name="link" value="${repoLink}" />
@@ -149,8 +155,37 @@
                     <!-- end markdown -->
                 </div>
             </div>
-            <!--end Instructions-->
         </div>
+        <!--end Instructions-->
+        <!--Feedback-->
+        <c:if test="${not empty attempts}">
+            <div class="tab-pane fade show" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
+
+                <div class="col-12">
+                    <div class="accordion" id="accordionExample">
+                        <c:forEach items="${attempts}" var="attempt" varStatus="loop">
+                            <div class="card mb-2">
+                                <!-- accordion label -->
+                                <div class="card-header d-flex justify-content-between" id="headingOne"
+                                     data-toggle="collapse"
+                                     data-target="#attempt_${loop.index}"
+                                     aria-expanded="${loop.first ? true : false}"
+                                     aria-controls="attempt_${loop.index}"
+                                     style="background-color: #fff">
+
+                                    <div class="p-2">Attempt : ${attempt.id} </div>
+                                    <div class="p-2 text-primary">Score : ${attempt.score}/${exercise.point}</div>
+
+                                </div>
+                                <!-- end accordion label -->
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
+
+            </div>
+        </c:if>
+        <!--end Feedback-->
     </div>
 </section>
 <!--bottom-box-->

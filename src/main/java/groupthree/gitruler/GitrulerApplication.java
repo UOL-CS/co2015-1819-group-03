@@ -34,7 +34,8 @@ public class GitrulerApplication {
     
     Exercise ex = new Exercise();
     ex.setName("Section A");
-    ex.setDescription("Configuring git, committing updates to tracked files and pushing changes to origin.");
+    ex.setDescription("Configuring git, committing updates to tracked "
+        + "files and pushing changes to origin.");
     ex.setTheme("bythepool");
     ex.setPoint(30);
     ex.setRepository("https://gitlab.com/BrandonRNeath/gitruler-a-1");
@@ -42,7 +43,8 @@ public class GitrulerApplication {
     
     ex = new Exercise();
     ex.setName("Section B");
-    ex.setDescription("Tracking a new file, staging specific files for a commit and checking the repository status.");
+    ex.setDescription("Tracking a new file, staging specific files for a commit "
+        + "and checking the repository status.");
     ex.setTheme("heatwave");
     ex.setPoint(100);
     ex.setRepository("https://gitlab.com/BrandonRNeath/gitruler-b-1");
@@ -58,7 +60,8 @@ public class GitrulerApplication {
     
     ex = new Exercise();
     ex.setName("Section D");
-    ex.setDescription("Tagging and using git to view a log of commits and differences between versions.");
+    ex.setDescription("Tagging and using git to view a log of commits "
+        + "and differences between versions.");
     ex.setTheme("duskfalling");
     ex.setPoint(100);
     ex.setRepository("https://gitlab.com/BrandonRNeath/gitruler-d-1");

@@ -1,8 +1,10 @@
 package groupthree.gitruler.controller;
 
+import groupthree.gitruler.domain.Attempt;
 import groupthree.gitruler.domain.Exercise;
 import groupthree.gitruler.domain.JobQueue;
 import groupthree.gitruler.domain.User;
+import groupthree.gitruler.repository.AttemptRepository;
 import groupthree.gitruler.repository.ExerciseRepository;
 import groupthree.gitruler.repository.JobQueueRepository;
 import groupthree.gitruler.repository.UserRepository;
@@ -13,6 +15,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.Principal;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,6 +52,9 @@ public class ExerciseController {
 
   @Autowired
   private JobQueueRepository jqRepo;
+
+  @Autowired
+  private AttemptRepository attemptRepo;
 
   /**
    * Handles the route for each singular exercise page. The id is retrieved from
@@ -98,6 +104,16 @@ public class ExerciseController {
 
       model.addAttribute("isForked", isForked);
       model.addAttribute("repoLink", repoLink);
+
+      List<Attempt> attempt = attemptRepo.findByExerciseAndUser(e, user);
+
+      if (!attempt.isEmpty()) {
+        for (int i = 0, j = attempt.size() - 1; i < j; i++) {
+          attempt.add(i, attempt.remove(j));
+        }
+        model.addAttribute("attempts", attempt);
+      }
+
     } catch (NullPointerException exception) {
       exception.printStackTrace();
     }

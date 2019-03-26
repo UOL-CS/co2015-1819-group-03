@@ -1,12 +1,12 @@
 #!/bin/bash
 
 if [ "$#" -ne 1  ]; then
-    echo "Usage: ./gitruler-server.sh /path/to/config.cnf"
+    echo "Usage: ./gitruler-server.sh /path/to/mysql.cnf"
     exit 1
 fi
 
 if [ ! -f "$1" ]; then
-    echo "Usage: ./gitruler-server.sh /path/to/config.cnf"
+    echo "Usage: ./gitruler-server.sh /path/to/mysql.cnf"
     exit 1
 fi
 

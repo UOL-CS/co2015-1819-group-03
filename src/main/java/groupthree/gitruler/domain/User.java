@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import org.jasypt.util.text.BasicTextEncryptor;
 
@@ -22,11 +23,8 @@ public class User {
   @Column(name = "token", unique = true, nullable = false)
   private String token;
 
-  @ManyToMany(cascade = CascadeType.ALL)
-  @JoinTable(name = "attempts", 
-      joinColumns = { @JoinColumn(referencedColumnName = "id") }, 
-      inverseJoinColumns = { @JoinColumn(referencedColumnName = "id") })
-  private List<Exercise> exercise;
+  @OneToMany(mappedBy = "user")
+  private List<Attempt> attempts;
 
   public int getId() {
     return id;
@@ -43,7 +41,15 @@ public class User {
   public void setToken(String token) {
     this.token = token;
   }
-  
+
+  public List<Attempt> getAttempts() {
+    return attempts;
+  }
+
+  public void setAttempts(List<Attempt> attempts) {
+    this.attempts = attempts;
+  }
+
   /**
    * Method decrypts given token using the given password,
    * returning an unencrypted plain string.

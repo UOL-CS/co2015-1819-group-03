@@ -6,11 +6,13 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
@@ -35,6 +37,9 @@ public class Exercise {
 
   @Column(name = "repository", unique = true, nullable = false)
   private String repository;
+
+  @OneToMany(mappedBy = "exercise")
+  private List<Attempt> attempts;
 
   public int getId() {
     return id;
@@ -82,6 +87,14 @@ public class Exercise {
 
   public void setRepository(String repository) {
     this.repository = repository;
+  }
+
+  public List<Attempt> getAttempts() {
+    return attempts;
+  }
+
+  public void setAttempts(List<Attempt> attempts) {
+    this.attempts = attempts;
   }
 
   /**

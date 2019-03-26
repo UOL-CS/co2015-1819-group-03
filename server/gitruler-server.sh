@@ -1,5 +1,15 @@
 #!/bin/bash
 
+if [ "$#" -ne 1  ]; then
+    echo "Usage: ./gitruler-server.sh /path/to/config.cnf"
+    exit 1
+fi
+
+if [ ! -f "$1" ]; then
+    echo "Usage: ./gitruler-server.sh /path/to/config.cnf"
+    exit 1
+fi
+
 cloneDir=mark
 mysqlcommand="mysql --defaults-file=$1 -e"
 

@@ -56,12 +56,10 @@
         <a class="nav-link active" id="instructions-tab" data-toggle="tab" href="#instructions" role="tab"
            aria-controls="instructions" aria-selected="true">Instructions</a>
     </li>
-    <c:if test="${not empty attempts}">
-        <li class="nav-item">
-            <a class="nav-link" id="feedback-tab" data-toggle="tab" href="#feedback" role="tab"
-               aria-controls="feedback" aria-selected="true">Feedback</a>
-        </li>
-    </c:if>
+    <li class="nav-item">
+        <a class="nav-link" id="attempt-tab" data-toggle="tab" href="#attempt" role="tab"
+           aria-controls="attempt" aria-selected="true">Attempts</a>
+    </li>
 </ul>
 <!--end tab-->
 
@@ -158,12 +156,14 @@
         </div>
         <!--end Instructions-->
         <!--Feedback-->
-        <c:if test="${not empty attempts}">
-            <div class="tab-pane fade show" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
-
+            <div class="tab-pane fade show" id="attempt" role="tabpanel" aria-labelledby="attempt-tab">
                 <div class="col-12">
+                  <c:if test="${empty attempts}">
+					          <h1 class="text-center mt-5 display-4">No attempts available.</h1>
+                  </c:if>     
+                  <c:if test="${not empty attempts}">
                     <div class="accordion" id="accordionExample">
-                        <c:forEach items="${attempts}" var="attempt" varStatus="loop">
+                        <c:forEach items="${attempts}" var="_attempt" varStatus="loop">
                             <div class="card mb-2">
                                 <!-- accordion label -->
                                 <div class="card-header d-flex justify-content-between" id="headingOne"
@@ -173,18 +173,17 @@
                                      aria-controls="attempt_${loop.index}"
                                      style="background-color: #fff">
 
-                                    <div class="p-2">Attempt : ${attempt.id} </div>
-                                    <div class="p-2 text-primary">Score : ${attempt.score}/${exercise.point}</div>
+                                    <div class="p-2">Attempt : ${_attempt.id} </div>
+                                    <div class="p-2 text-primary">Score : ${_attempt.score}/${exercise.point}</div>
 
                                 </div>
                                 <!-- end accordion label -->
                             </div>
                         </c:forEach>
                     </div>
+                  </c:if>
                 </div>
-
             </div>
-        </c:if>
         <!--end Feedback-->
     </div>
 </section>

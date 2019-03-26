@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 public class Attempt {
 
   @Id
-  @GeneratedValue(strategy= GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", unique = true, nullable = false)
   private int id;
 

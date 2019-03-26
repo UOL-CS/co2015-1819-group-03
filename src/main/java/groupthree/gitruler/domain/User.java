@@ -59,7 +59,7 @@ public class User {
     textEncryptor.setPassword(password);
     return textEncryptor.decrypt(token);
   }
-  
+
   /**
    * Method encrypts given token using the given password,
    * returning an encrypted string.

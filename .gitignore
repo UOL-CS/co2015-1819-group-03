@@ -2,6 +2,8 @@
 /build/
 !gradle/wrapper/gradle-wrapper.jar
 /bin/
+server/gitruler.jar
+server/mark/
 
 ### STS ###
 .apt_generated

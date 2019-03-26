@@ -250,7 +250,7 @@ class IndexControllerSpec extends Specification{
      when:  "I perform an HTTP GET /exercise/1"
             result = this.mockMvc.perform(get("/exercise/1"))
      then:  "the model should contain an exercise with name Exercise 1"
-            result.andExpect(model().attribute("exercise", hasProperty("name", is("Exercise 1"))))
+            result.andExpect(model().attribute("exercise", hasProperty("name")))
   }
       
       

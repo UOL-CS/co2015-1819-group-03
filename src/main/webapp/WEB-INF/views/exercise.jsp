@@ -173,7 +173,8 @@
                                      aria-controls="attempt_${loop.index}"
                                      style="background-color: #fff">
 
-                                    <div class="p-2">Attempt : ${_attempt.id} </div>
+                                    <c:set var="index" value="${loop.index - attemptSize}" />
+                                    <div class="p-2">Attempt : ${index < 0 ? -index:index} </div>
                                     <div class="p-2 text-primary">Score : ${_attempt.score}/${exercise.point}</div>
 
                                 </div>

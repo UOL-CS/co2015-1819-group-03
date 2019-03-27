@@ -166,25 +166,28 @@
                 <c:if test="${not empty attempts}">
                     <div class="accordion" id="accordionFeedback">
                         <c:forEach items="${attempts}" var="_attempt" varStatus="loop">
-                            <div class="card mb-2">
+                            <div class="card mb-2 shadow-sm">
                                 <!-- accordion label -->
-                                <div class="card-header d-flex justify-content-between" id="headingOne"
+                                <div class="card-header d-flex justify-content-between"
+                                     id="heading${loop.index}"
                                      data-toggle="collapse"
                                      data-target="#attempt_${loop.index}"
                                      aria-expanded="${loop.first ? true : false}"
                                      aria-controls="attempt_${loop.index}"
-                                     style="background-color: #fff">
+                                >
 
                                     <c:set var="index" value="${loop.index - attemptSize}"/>
                                     <div class="p-2">Attempt : ${index < 0 ? -index:index} </div>
                                     <div class="p-2 text-primary">Score : ${_attempt.score}/${exercise.point}</div>
+                                    <div class="p-2"><i class="fas fa-caret-down"></i><i class="fas fa-caret-up"></i>
+                                    </div>
 
                                 </div>
                                 <!-- end accordion label -->
                                 <!-- accordion content -->
                                 <div id="attempt_${loop.index}"
                                      class="collapse <c:if test="${loop.first}">show</c:if>"
-                                     aria-labelledby="headingOne"
+                                     aria-labelledby="heading${loop.index}"
                                      data-parent="#accordionFeedback"
                                      style="background-color: #282a36"
                                 >

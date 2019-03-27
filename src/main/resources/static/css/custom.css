@@ -115,8 +115,22 @@ li.nav-item a.active {
 
 /* attempt feedback */
 p.bash {
-    padding: 2%;
+    padding: 0 2% 0 2%;
     background-color: #282a36;
     color: #FFF;
     font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+}
+
+div[aria-expanded=false] div .fa-caret-up {
+    display: none;
+}
+div[aria-expanded=true] div .fa-caret-down {
+    display: none;
+}
+
+.card-header{
+    background-color: #fff;
+}
+.card-header:hover{
+    background-color: rgba(207, 207, 207, 0.53);
 }

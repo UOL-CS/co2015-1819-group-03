@@ -25,10 +25,10 @@ while true; do
 
                 output=$(java -jar gitruler.jar -w -r $cloneDir)
 
-                feedback=$(echo "$output" | head -n -1 | sed -e "s/'\\\\'/g" | tr -d '\n')
+                feedback=$(echo "$output" | head -n -1 | sed -e "s/'/\\\\'/g" | tr -d '\n')
                 score=$(echo "$output" | tail -1)
 
-                if eval "$mysqlcommand 'INSERT INTO attempt VALUES (0, $score, $exId, $userId);'"; then
+                if $($mysqlcommand "INSERT INTO attempt VALUES (0, '$feedback', $score, $exId, $userId);"); then
                     echo "[Row insertion successful]"
                 else 
                     echo "[Row insertion failed]"

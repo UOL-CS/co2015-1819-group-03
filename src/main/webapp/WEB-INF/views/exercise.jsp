@@ -85,7 +85,8 @@
                                 </c:if>
                                 <c:if test="${isSubmitSuccessful eq true}">
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                        <strong>Exercise submitted!</strong> Results will be shown in the Attempts tab shortly.
+                                        <strong>Exercise submitted!</strong> Results will be shown in the Attempts tab
+                                        shortly.
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -137,9 +138,10 @@
                                                 <span class="text-muted">Click the submit button to submit the solution.</span>
 
                                                 <form action="/exercise/submit/${exercise.id}" method="POST">
-		                                                <button class="btn bg-info w-100 mt-2" type="submit">Submit</button>
-		                                                <input type="hidden" name="link" value="${repoLink}" />
-		                                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                                    <button class="btn bg-info w-100 mt-2" type="submit">Submit</button>
+                                                    <input type="hidden" name="link" value="${repoLink}"/>
+                                                    <input type="hidden" name="${_csrf.parameterName}"
+                                                           value="${_csrf.token}"/>
                                                 </form>
                                             </li>
                                         </ol>
@@ -156,13 +158,13 @@
         </div>
         <!--end Instructions-->
         <!--Feedback-->
-            <div class="tab-pane fade show" id="attempt" role="tabpanel" aria-labelledby="attempt-tab">
-                <div class="col-12">
-                  <c:if test="${empty attempts}">
-					          <h1 class="text-center mt-5 display-4">No attempts available.</h1>
-                  </c:if>     
-                  <c:if test="${not empty attempts}">
-                    <div class="accordion" id="accordionExample">
+        <div class="tab-pane fade show" id="attempt" role="tabpanel" aria-labelledby="attempt-tab">
+            <div class="col-12">
+                <c:if test="${empty attempts}">
+                    <h1 class="text-center mt-5 display-4">No attempts available.</h1>
+                </c:if>
+                <c:if test="${not empty attempts}">
+                    <div class="accordion" id="accordionFeedback">
                         <c:forEach items="${attempts}" var="_attempt" varStatus="loop">
                             <div class="card mb-2">
                                 <!-- accordion label -->
@@ -173,18 +175,32 @@
                                      aria-controls="attempt_${loop.index}"
                                      style="background-color: #fff">
 
-                                    <c:set var="index" value="${loop.index - attemptSize}" />
+                                    <c:set var="index" value="${loop.index - attemptSize}"/>
                                     <div class="p-2">Attempt : ${index < 0 ? -index:index} </div>
                                     <div class="p-2 text-primary">Score : ${_attempt.score}/${exercise.point}</div>
 
                                 </div>
                                 <!-- end accordion label -->
+                                <!-- accordion content -->
+                                <div id="attempt_${loop.index}"
+                                     class="collapse <c:if test="${loop.first}">show</c:if>"
+                                     aria-labelledby="headingOne"
+                                     data-parent="#accordionFeedback"
+                                     style="background-color: #282a36"
+                                >
+                                    <div class="card-body">
+                                        <p class="bash">
+                                                ${_attempt.feedback}
+                                        </p>
+                                    </div>
+                                </div>
+                                <!-- end accordion content -->
                             </div>
                         </c:forEach>
                     </div>
-                  </c:if>
-                </div>
+                </c:if>
             </div>
+        </div>
         <!--end Feedback-->
     </div>
 </section>

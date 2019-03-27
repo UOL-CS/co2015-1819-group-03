@@ -112,6 +112,7 @@ public class ExerciseController {
           attempt.add(i, attempt.remove(j));
         }
         model.addAttribute("attempts", attempt);
+        model.addAttribute("attemptSize", attempt.size());
       }
 
     } catch (NullPointerException exception) {

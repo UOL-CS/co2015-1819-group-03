@@ -27,6 +27,9 @@ public class Attempt {
   @Column(name = "score")
   private int score;
 
+  @Column(name = "feedback", columnDefinition = "text")
+  private String feedback;
+
   public int getId() {
     return id;
   }
@@ -57,5 +60,13 @@ public class Attempt {
 
   public void setScore(int score) {
     this.score = score;
+  }
+
+  public String getFeedback() {
+    return feedback;
+  }
+
+  public void setFeedback(String feedback) {
+    this.feedback = feedback;
   }
 }

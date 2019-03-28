@@ -3,21 +3,13 @@
 ## Requirements
 
 You will need the following to run this application:
-1. Server running MySQL version 14.14
-1. Java version 1.8
-
-## Installation
-
-Setup the MySQL database.
-
-```bash
-mysql -u USERNAME -h HOSTNAME -P PORT -p -e "create database groupthree" 
-```
+1. Server running MySQL version 14.14 (database)
+1. Server running Java version 1.8 (web application)
+1. Server running Ubuntu, Java version 1.8 and MySQL version 14.14 (marking server)
 
 ## Configure GitLab OAuth2
 
 Follow the instructions provided on this [website](https://docs.gitlab.com/ee/integration/oauth_provider.html). Set the callback URL to `http://{DOMAIN_NAME}/login/oauth2/code/gitlab`, replacing {DOMAIN_NAME} with the appropriate domain name.
-
 
 ## Configure application.yml
 
@@ -31,7 +23,6 @@ Create a new file `application.yml` with the following contents, replacing {} wi
 `{CLIENT_ID}` = GitLab Application Id  
 `{CLIENT_SECRET}` = GitLab Secret  
 `{PORT_NUMBER}` = Port you would like the application to run on  
-
 
 ```yaml
 spring:
@@ -73,8 +64,47 @@ server:
   port: {PORT_NUMBER}
 ```
 
-## Run the application
+## Installation
+
+1. Setup the MySQL database on the database server.
+
+    ```bash
+    mysql -u USERNAME -h HOSTNAME -P PORT -p -e "create database groupthree" 
+    ```
+
+1. Download the `co2015-1819-group-03-0.0.2-SNAPSHOT.war` from [Releases](https://github.com/UOL-CS/co2015-1819-group-03/releases) and place in web server.
+1. Download the `server` folder from the repository and place in marking server. 
+1. Download the `gitruler.jar` from [Releases](https://github.com/UOL-CS/co2015-1819-group-03/releases) and place in the `server` folder.
+
+## Configure mysql.cnf
+
+This file contains the properties for the MySQL database connection.
+
+Replace the following with the MySQL configuration details used when setting up the MySQL database above:
+
+`USERNAME` = Username for the sql server  
+`PASSWORD` = Password for the sql server 
+`DATABASE` = Name of the database ("groupthree" used above)
+`HOSTNAME` = Hostname of the sql server e.g. mysql.mcscw3.le.ac.uk  
+`PORT` = Port of the sql server e.g. 3306
+
+```cnf
+[client]
+user=USERNAME
+password=PASSWORD
+database=DATABASE_NAME
+host=HOSTNAME
+port=PORT
+```
+
+## Running the web application
 
 ```bash
 java -jar /path/to/co2015-1819-group-03-0.0.1-SNAPSHOT.war --spring.config.location=file:relative/path/to/application.yml
+```
+
+## Running the marking server
+
+```bash
+./gitruler-server.sh /path/to/mysql.cnf
 ```

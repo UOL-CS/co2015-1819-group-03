@@ -19,8 +19,10 @@ import static org.hamcrest.Matchers.*;
 import spock.lang.Specification
 import groupthree.gitruler.controller.IndexController
 import groupthree.gitruler.domain.Exercise
+import groupthree.gitruler.domain.JobQueue
 import groupthree.gitruler.domain.User
 import groupthree.gitruler.repository.ExerciseRepository
+import groupthree.gitruler.repository.JobQueueRepository
 import groupthree.gitruler.repository.UserRepository
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.*;
@@ -43,6 +45,10 @@ class IndexControllerSpec extends Specification{
   
   @Autowired
   private UserRepository userRepo;
+  
+  @Autowired
+  private JobQueueRepository jqRepo;
+  
   
   private MockMvc mockMvc;
   private ResultActions result;
@@ -244,7 +250,7 @@ class IndexControllerSpec extends Specification{
      when:  "I perform an HTTP GET /exercise/1"
             result = this.mockMvc.perform(get("/exercise/1"))
      then:  "the model should contain an exercise with name Exercise 1"
-            result.andExpect(model().attribute("exercise", hasProperty("name", is("Exercise 1"))))
+            result.andExpect(model().attribute("exercise", hasProperty("name")))
   }
       
       
@@ -519,6 +525,122 @@ class IndexControllerSpec extends Specification{
           userRepo.save(user)
     then: "throw an exception"
           thrown(DataIntegrityViolationException)
+  }
+  
+  def "add job to job queue"() {
+    
+    given: "a single job in the repository"
+           jqRepo.deleteAll()
+           JobQueue job = new JobQueue()
+           job.setLink("https://gitlab.com/gitlab-org/gitlab-ce")
+           job.setUserId(72792)
+           job.setExerciseId(2)
+    when: "saving the job to the repository"
+          jqRepo.save(job)
+    then: "repository should contain one job"
+          assertThat(jqRepo.findAll(), hasSize(1))
+  }
+  
+  def "add job with no attributes to queue"() {
+    
+    given: "a single job in the repository"
+           jqRepo.deleteAll()
+           JobQueue job = new JobQueue()
+    when: "saving the job to the repository"
+          jqRepo.save(job)
+    then: "throw an exception"
+          thrown(DataIntegrityViolationException)
+  }
+  
+  def "add job with empty string as link to queue"() {
+    
+    given: "a single job in the repository"
+           jqRepo.deleteAll()
+           JobQueue job = new JobQueue()
+           job.setLink("")
+           job.setUserId(72792)
+           job.setExerciseId(2)
+    when: "saving the job to the repository"
+          jqRepo.save(job)
+    then: "repository should contain one job"
+          assertThat(jqRepo.findAll(), hasSize(1))
+  }
+  
+  def "add job with null link to queue"() {
+    
+    given: "a single job in the repository"
+           jqRepo.deleteAll()
+           JobQueue job = new JobQueue()
+           job.setLink(null)
+           job.setUserId(72792)
+           job.setExerciseId(2)
+    when: "saving the job to the repository"
+          jqRepo.save(job)
+    then: "throw an exception"
+          thrown(DataIntegrityViolationException)
+  }
+  
+  def "add multiple non-unique jobs to queue"() {
+    
+    given: "two jobs in the repository"
+           jqRepo.deleteAll()
+           JobQueue job1 = new JobQueue()
+           job1.setLink("https://gitlab.com/gitlab-org/gitlab-ce")
+           job1.setUserId(72792)
+           job1.setExerciseId(2)
+           JobQueue job2 = new JobQueue()
+           job2.setLink("https://gitlab.com/gitlab-org/gitlab-ce")
+           job2.setUserId(72792)
+           job2.setExerciseId(2)
+    when: "saving the jobs to the repository"
+          jqRepo.save(job1)
+          jqRepo.save(job2)
+    then: "repository should contain one job"
+          assertThat(jqRepo.findAll(), hasSize(2))
+  }
+  
+  def "add multiple unique jobs to queue"() {
+    
+    given: "two jobs in the repository"
+           jqRepo.deleteAll()
+           JobQueue job1 = new JobQueue()
+           job1.setLink("https://gitlab.com/gitlab-org/gitlab-ce")
+           job1.setUserId(72792)
+           job1.setExerciseId(2)
+           JobQueue job2 = new JobQueue()
+           job2.setLink("https://gitlab.com/gitlab-org/gitlab-runner")
+           job2.setUserId(56456)
+           job2.setExerciseId(1)
+    when: "saving the jobs to the repository"
+          jqRepo.save(job1)
+          jqRepo.save(job2)
+    then: "repository should contain one job"
+          assertThat(jqRepo.findAll(), hasSize(2))
+  }
+  
+  def "POST /sumbmit/1 redirects to exercise page"() {
+    
+    given: "the context of the controller is setup"
+            this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build()
+    when:  "I perform an HTTP POST /submit/{id}"
+            result = this.mockMvc.perform(post('/exercise/submit/1')
+                  .param("id", "2")
+                  .param("link", "testLink")
+                  .with(csrf()))
+    then:  "the status of the HTTP response should be 302"
+            result.andExpect(redirectedUrl("/exercise/1"))
+  }
+  
+  def "POST /sumbmit/1 without csrf token"() {
+    
+    given: "the context of the controller is setup"
+            this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build()
+    when:  "I perform an HTTP POST /submit/{id}"
+            result = this.mockMvc.perform(post('/exercise/submit/100')
+                  .param("id", "2")
+                  .param("link", "testLink"))
+    then:  "the status of the HTTP response should be 302"
+            result.andExpect(status().is(302))
   }
 
  }

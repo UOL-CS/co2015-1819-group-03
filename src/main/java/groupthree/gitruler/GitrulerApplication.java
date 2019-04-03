@@ -31,32 +31,57 @@ public class GitrulerApplication {
    */
   @EventListener
   public void appReady(ApplicationReadyEvent event) {
-
-    String[] themes = { "sugarsweets", "heatwave", "daisygarden", "seascape", "summerwarmth", 
-        "bythepool", "duskfalling", "frogideas", "berrypie" };
     
-    String[] repositories = {
-        "https://gitlab.com/gitlab-org/gitlab-ce",
-        "https://gitlab.com/gitlab-org/gitlab-runner",
-        "https://gitlab.com/inkscape/inkscape",
-        "https://gitlab.com/gnachman/iterm2",
-        "https://gitlab.com/gitlab-org/omnibus-gitlab",
-        "https://gitlab.com/tortoisegit/tortoisegit"
-    };
-   
-    Exercise ex;
-
-    for (int i = 1; i <= 6; i++) {
-      ex = new Exercise();
-      ex.setName("Exercise " + i);
-      ex.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. " 
-          + "Aenean mattis vel purus et sagittis nullam.");
-      ex.setTheme(themes[new Random().nextInt(9)]);
-      ex.setPoint((new Random().nextInt(41) + 10) * 10);
-      ex.setRepository(repositories[i - 1]);
-      
-      exRepo.save(ex);
-    }
+    Exercise ex = new Exercise();
+    ex.setName("Section A");
+    ex.setDescription("Configuring git, committing updates to tracked "
+        + "files and pushing changes to origin.");
+    ex.setTheme("bythepool");
+    ex.setPoint(30);
+    ex.setRepository("https://gitlab.com/BrandonRNeath/gitruler-a-1");
+    exRepo.save(ex);
+    
+    ex = new Exercise();
+    ex.setName("Section B");
+    ex.setDescription("Tracking a new file, staging specific files for a commit "
+        + "and checking the repository status.");
+    ex.setTheme("heatwave");
+    ex.setPoint(100);
+    ex.setRepository("https://gitlab.com/BrandonRNeath/gitruler-b-1");
+    exRepo.save(ex);
+    
+    ex = new Exercise();
+    ex.setName("Section C");
+    ex.setDescription("Ignoring moving and removing files in git.");
+    ex.setTheme("sugarsweets");
+    ex.setPoint(100);
+    ex.setRepository("https://gitlab.com/BrandonRNeath/gitruler-section-c");
+    exRepo.save(ex);
+    
+    ex = new Exercise();
+    ex.setName("Section D");
+    ex.setDescription("Tagging and using git to view a log of commits "
+        + "and differences between versions.");
+    ex.setTheme("duskfalling");
+    ex.setPoint(100);
+    ex.setRepository("https://gitlab.com/BrandonRNeath/gitruler-d-1");
+    exRepo.save(ex);
+    
+    ex = new Exercise();
+    ex.setName("Section E");
+    ex.setDescription("Branching and merging and resolving merge conflicts.");
+    ex.setTheme("bythepool");
+    ex.setPoint(100);
+    ex.setRepository("https://gitlab.com/BrandonRNeath/gitruler-e-1");
+    exRepo.save(ex);
+    
+    ex = new Exercise();
+    ex.setName("Practice A-E");
+    ex.setDescription("Practice all the skills that you learned from previous exercises.");
+    ex.setTheme("sugarsweets");
+    ex.setPoint(100);
+    ex.setRepository("https://gitlab.com/BrandonRNeath/gitruler-practice-a-e");
+    exRepo.save(ex);
 
   }
 

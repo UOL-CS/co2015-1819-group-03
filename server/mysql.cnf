@@ -1,0 +1,6 @@
+[client]
+user=USERNAME
+password=PASSWORD
+database=DATABASE_NAME
+host=HOSTNAME
+port=PORT

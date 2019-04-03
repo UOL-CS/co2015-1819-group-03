@@ -17,7 +17,7 @@
 <!-- header -->
 
 <nav class="navbar sticky-top navbar-dark navbar-expand-md" id="navbar">
-    <a class="navbar-brand" href="#">GitRuler</a>
+    <a class="navbar-brand" href="/">GitRuler</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -56,14 +56,18 @@
         <a class="nav-link active" id="instructions-tab" data-toggle="tab" href="#instructions" role="tab"
            aria-controls="instructions" aria-selected="true">Instructions</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" id="attempt-tab" data-toggle="tab" href="#attempt" role="tab"
+           aria-controls="attempt" aria-selected="true">Attempts</a>
+    </li>
 </ul>
 <!--end tab-->
 
 <!--bottom-box-->
 <section class="bottom-box">
     <div class="tab-content">
+        <!--Instructions-->
         <div class="tab-pane fade show active" id="instructions" role="tabpanel" aria-labelledby="instructions-tab">
-            <!--Instructions-->
             <div class="container">
                 <div class="row">
                     <!-- markdown -->
@@ -79,6 +83,23 @@
                                         </button>
                                     </div>
                                 </c:if>
+                                <c:if test="${isSubmitSuccessful eq true}">
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <strong>Exercise submitted!</strong> Results will be shown in the Attempts tab
+                                        shortly.
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                </c:if>
+                                <c:if test="${isSubmitSuccessful eq false}">
+                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        <strong>Whoops! Something went wrong!</strong> Please try again.
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                </c:if>
                                 <c:if test="${isSuccessful eq false}">
                                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
                                         <strong>Exercise already started!</strong> Follow the instructions below.
@@ -87,7 +108,7 @@
                                         </button>
                                     </div>
                                 </c:if>
-                                <div class="card">
+                                <div class="card" id="card">
                                     <c:if test="${isForked == false}">
                                         <span class="h5">Get Started</span>
                                         <span class="text-muted">Click the start button to begin the exercise.</span>
@@ -106,11 +127,22 @@
                                                     <input type="text" class="form-control" id="copy_val" readonly
                                                            value="${repoLink}">
                                                     <div class="input-group-append">
-                                                        <button class="btn bg-secondary copy" type="button"
+                                                        <button class="btn bg-secondary copy" id="copy" type="button"
                                                                 data-clipboard-target="#copy_val"><i
                                                                 class="fas fa-copy"></i></button>
                                                     </div>
                                                 </div>
+                                            </li>
+                                            <li>
+                                                <span class="h6">Submit solution</span><br>
+                                                <span class="text-muted">Click the submit button to submit the solution.</span>
+
+                                                <form action="/exercise/submit/${exercise.id}" method="POST">
+                                                    <button class="btn bg-info w-100 mt-2" type="submit">Submit</button>
+                                                    <input type="hidden" name="link" value="${repoLink}"/>
+                                                    <input type="hidden" name="${_csrf.parameterName}"
+                                                           value="${_csrf.token}"/>
+                                                </form>
                                             </li>
                                         </ol>
                                     </c:if>
@@ -123,8 +155,56 @@
                     <!-- end markdown -->
                 </div>
             </div>
-            <!--end Instructions-->
         </div>
+        <!--end Instructions-->
+        <!--Feedback-->
+        <div class="tab-pane fade show" id="attempt" role="tabpanel" aria-labelledby="attempt-tab">
+            <div class="col-12">
+                <c:if test="${empty attempts}">
+                    <h1 class="text-center mt-5 display-4">No attempts available.</h1>
+                </c:if>
+                <c:if test="${not empty attempts}">
+                    <div class="accordion" id="accordionFeedback">
+                        <c:forEach items="${attempts}" var="_attempt" varStatus="loop">
+                            <div class="card mb-2 shadow-sm">
+                                <!-- accordion label -->
+                                <div class="card-header d-flex justify-content-between"
+                                     id="heading${loop.index}"
+                                     data-toggle="collapse"
+                                     data-target="#attempt_${loop.index}"
+                                     aria-expanded="${loop.first ? true : false}"
+                                     aria-controls="attempt_${loop.index}"
+                                >
+
+                                    <c:set var="index" value="${loop.index - attemptSize}"/>
+                                    <div class="p-2">Attempt : ${index < 0 ? -index:index} </div>
+                                    <div class="p-2 text-primary">Score : ${_attempt.score}/${exercise.point}</div>
+                                    <div class="p-2"><i class="fas fa-caret-down"></i><i class="fas fa-caret-up"></i>
+                                    </div>
+
+                                </div>
+                                <!-- end accordion label -->
+                                <!-- accordion content -->
+                                <div id="attempt_${loop.index}"
+                                     class="collapse <c:if test="${loop.first}">show</c:if>"
+                                     aria-labelledby="heading${loop.index}"
+                                     data-parent="#accordionFeedback"
+                                     style="background-color: #282a36"
+                                >
+                                    <div class="card-body">
+                                        <p class="bash">
+                                                ${_attempt.feedback}
+                                        </p>
+                                    </div>
+                                </div>
+                                <!-- end accordion content -->
+                            </div>
+                        </c:forEach>
+                    </div>
+                </c:if>
+            </div>
+        </div>
+        <!--end Feedback-->
     </div>
 </section>
 <!--bottom-box-->
